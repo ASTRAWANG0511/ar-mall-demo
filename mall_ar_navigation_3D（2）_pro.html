@@ -1,0 +1,1582 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>NAV//AR 正大广场智能导航</title>
+<style>
+:root{--bg:#05090f;--panel:#0b1420;--line:#193247;--cyan:#55f3ff;--blue:#168dff;--muted:#8ba3b8;--white:#eafaff;--red:#ff586c;--green:#75ffbe}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#12304a 0,transparent 48%),var(--bg);color:var(--white);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}button,select{font:inherit}button{cursor:pointer;color:var(--white);border:1px solid #2b5368;background:#102233;border-radius:10px;padding:10px 13px;transition:.2s}button:hover{border-color:var(--cyan);box-shadow:0 0 18px #55f3ff22}button.primary{background:var(--cyan);color:#031016;border-color:var(--cyan);font-weight:800}button.active{border-color:var(--cyan);background:#123847;color:var(--cyan)}.app{max-width:1240px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border:1px solid var(--cyan);border-radius:12px;display:grid;place-items:center;color:var(--cyan);font-weight:900;box-shadow:inset 0 0 18px #55f3ff18}.eyebrow{font-size:10px;letter-spacing:2.5px;color:var(--cyan)}h1{font-size:19px;margin:2px 0 0;letter-spacing:1px}.status{font-size:11px;color:var(--green);border:1px solid #255544;border-radius:30px;padding:7px 10px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.85fr);gap:16px}.panel{background:linear-gradient(145deg,#0c1723f2,#07101af5);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 16px 45px #0004}.panelhead{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}.panelhead h2{font-size:12px;letter-spacing:1.5px;margin:0}.sub{color:var(--muted);font-size:11px}.scene{position:relative;background:#02070c;min-height:420px;overflow:hidden}.scene video,.scene canvas{position:absolute;width:100%;height:100%;inset:0;object-fit:cover}.scene video{display:none;transform:scaleX(-1)}#overlay{pointer-events:none}.scene.sim #simscene{display:block}.scene.live #simscene{display:none}.scene.live video{display:block}.scene.live #overlay{display:block}.scene.sim #overlay{display:none}.simscene{position:absolute;inset:0;overflow:hidden;background:linear-gradient(#0b1b2b 0%,#111c29 47%,#070b10 100%)}.wall{position:absolute;top:0;left:0;right:0;height:48%;background:repeating-linear-gradient(90deg,transparent 0 13%,#142c3c 13.2% 13.7%,transparent 14% 26%),linear-gradient(115deg,#142b3b,#050a10);opacity:.9}.ceiling{position:absolute;top:0;width:100%;height:16%;background:repeating-linear-gradient(90deg,#243c4b 0 2px,transparent 2px 95px),linear-gradient(#1d2e3a,#101b26);clip-path:polygon(0 0,100% 0,83% 100%,16% 100%)}.floor{position:absolute;bottom:-10%;left:-25%;width:150%;height:65%;background:repeating-linear-gradient(0deg,transparent 0 46px,#203a4c 47px 49px),repeating-linear-gradient(90deg,transparent 0 75px,#203a4c 76px 78px),linear-gradient(#172a39,#03070b);transform:perspective(300px) rotateX(25deg)}.shop{position:absolute;top:24%;height:24%;width:20%;border:1px solid #315366;background:linear-gradient(#132d3d,#06111b);box-shadow:inset 0 0 22px #55f3ff0b}.shop:after{content:attr(data-name);position:absolute;bottom:12%;left:0;right:0;text-align:center;font-size:10px;letter-spacing:2px;color:#7dddeb}.shop.s1{left:6%}.shop.s2{left:40%;top:20%;height:28%;width:22%}.shop.s3{right:5%;top:25%;height:23%;width:19%}.arpath{position:absolute;left:50%;top:50%;width:2px;height:42%;background:linear-gradient(transparent,var(--cyan));filter:drop-shadow(0 0 7px var(--cyan));transform:translateX(-50%)}.arrow{position:absolute;left:50%;top:57%;width:65px;height:65px;border-top:5px solid var(--cyan);border-left:5px solid var(--cyan);transform:translateX(-50%) rotate(45deg);filter:drop-shadow(0 0 12px var(--cyan));animation:float 1.5s ease-in-out infinite}.hud{position:absolute;z-index:3;left:14px;right:14px;top:14px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.chip{background:#06121dd9;border:1px solid #28556b;border-radius:8px;padding:7px 9px;font-size:10px;letter-spacing:1px;backdrop-filter:blur(8px)}.chip b{color:var(--cyan)}.destination{position:absolute;z-index:3;left:14px;right:14px;bottom:14px;background:#06111de8;border:1px solid #245168;border-radius:14px;padding:13px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px;backdrop-filter:blur(10px)}.destination strong{display:block;font-size:14px}.distance{font-size:22px;color:var(--cyan);font-weight:800}.scenefooter{padding:12px 15px;display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line)}.sensorbar{display:flex;gap:8px;flex-wrap:wrap;padding:0 15px 12px}.sensorpill{font-size:10px;color:var(--muted);border:1px solid #234256;border-radius:20px;padding:6px 9px;background:#07121c}.sensorpill b{color:var(--cyan)}.rightcol{display:flex;flex-direction:column;gap:16px}.content{padding:16px}.label{display:block;font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-bottom:8px}.select{width:100%;padding:12px;background:#07111b;color:var(--white);border:1px solid #244357;border-radius:10px;margin-bottom:12px}.routeinfo{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:13px 0}.metric{background:#08131e;border:1px solid #183347;border-radius:10px;padding:10px}.metric b{display:block;color:var(--cyan);font-size:18px}.metric span{font-size:10px;color:var(--muted)}.route-list{display:flex;flex-direction:column;gap:0}.step{display:flex;gap:11px;padding:11px 0;border-bottom:1px solid #152838}.step:last-child{border:0}.stepno{flex:0 0 27px;height:27px;border:1px solid #286178;border-radius:8px;display:grid;place-items:center;color:var(--cyan);font-size:11px}.step strong{font-size:12px}.step p{margin:3px 0 0;font-size:11px;color:var(--muted)}.mapwrap{padding:12px}.map{width:100%;display:block;border-radius:12px;background:#08121b;border:1px solid #1b3b50}.legend{display:flex;gap:12px;flex-wrap:wrap;padding:10px 2px 0;color:var(--muted);font-size:10px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;background:var(--cyan)}.dot.red{background:var(--red)}.dot.green{background:var(--green)}.notice{border:1px solid #254557;background:#081520;border-radius:12px;padding:12px;color:var(--muted);font-size:11px}.notice b{color:var(--white)}.notice.warning{border-color:#614a28;background:#1b160d}.notice.warning b{color:#ffd38b}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions button{flex:1}.footer{text-align:center;color:#5f788b;font-size:10px;padding:20px 0 5px;letter-spacing:.7px}.hidden{display:none!important}@keyframes float{0%,100%{margin-top:0;opacity:.8}50%{margin-top:-9px;opacity:1}}@media(max-width:780px){.app{padding:12px}.layout{grid-template-columns:1fr}.scene{min-height:440px}.top{align-items:flex-start}.status{font-size:9px}.rightcol{display:grid;grid-template-columns:1fr}.brand h1{font-size:16px}}@media(min-width:781px){.scene{height:530px}}
+
+.map3d-wrap{position:relative;border:1px solid #1b3b50;border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#10283a,#050b12 75%);touch-action:none}.map3d{display:block;width:100%;height:290px;touch-action:none;cursor:grab}.map3d:active{cursor:grabbing}.map3d-hint{position:absolute;left:10px;top:9px;font-size:10px;color:#8ba3b8;background:#06121dd9;border:1px solid #244357;border-radius:7px;padding:5px 7px;pointer-events:none}.map3d-tools{position:absolute;right:8px;top:8px;display:flex;gap:5px}.map3d-tools button{font-size:10px;padding:6px 8px;background:#071722dd}.map3d-tools button:active{background:#123847}
+</style>
+<style>
+.prosuite{margin-top:16px}.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px 0}.tab{font-size:12px;padding:8px 13px;border-radius:9px 9px 0 0;border-bottom:none;background:#0a1926;color:var(--muted)}.tab.active{background:#123847;color:var(--cyan);border-color:var(--cyan)}.tabbody{display:none;padding:16px;border-top:1px solid var(--line)}.tabbody.active{display:block}.progrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.kpi{background:#0a1926;border:1px solid var(--line);border-radius:12px;padding:12px}.kpi b{display:block;font-size:19px;color:var(--cyan);margin-bottom:2px}.kpi span{font-size:10px;color:var(--muted);letter-spacing:.5px}.kpi.warn b{color:#ffc86c}.kpi.bad b{color:var(--red)}.kpi.good b{color:var(--green)}.ptable{width:100%;border-collapse:collapse;font-size:11.5px}.ptable th,.ptable td{padding:7px 8px;border-bottom:1px solid #14293a;text-align:left;vertical-align:top}.ptable th{color:var(--muted);font-weight:500;font-size:10.5px;letter-spacing:.5px}.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px;border:1px solid;white-space:nowrap}.badge.ok{color:var(--green);border-color:#255544}.badge.warn{color:#ffc86c;border-color:#6b5326}.badge.bad{color:var(--red);border-color:#5c2430}.explist{margin:12px 0 0;padding:0;list-style:none}.explist li{padding:8px 10px;border-left:2px solid var(--cyan);background:#0a1926;border-radius:0 8px 8px 0;margin-bottom:6px;font-size:12px;line-height:1.5}.testrow{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;font-size:12px}.pass{color:var(--green);font-weight:800}.fail{color:var(--red);font-weight:800}.heatwrap{position:relative;border:1px solid #1b3b50;border-radius:12px;overflow:hidden;background:#04101a}canvas.heat{display:block;width:100%;height:330px}.hbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:10px}.smallbtn{font-size:11px;padding:7px 11px;border-radius:8px}.label{display:block;font-size:10px;letter-spacing:1px;color:var(--muted);margin:10px 0 5px}select.select{width:100%;background:#0a1926;color:var(--white);border:1px solid #2b5368;border-radius:9px;padding:9px}.demo-step{border:1px solid var(--line);border-radius:12px;padding:14px;background:#0a1926}.demo-step h3{margin:0 0 8px;font-size:13px;color:var(--cyan)}.prosuite h4{font-size:11px;letter-spacing:1px;color:var(--cyan);margin:14px 0 7px;font-weight:500}.prosuite p{margin:0 0 4px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:900px){.twocol{grid-template-columns:1fr}}.selfcheck{font-size:10px;border:1px solid #255544;color:var(--green);border-radius:20px;padding:5px 10px;white-space:nowrap}.route-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}@media(max-width:900px){.route-cards{grid-template-columns:1fr}}.routecard{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0a1926}.routecard.enh{border-color:var(--cyan);box-shadow:0 0 22px #55f3ff14}.routecard h4{margin:0 0 8px;font-size:10.5px;letter-spacing:1px;color:var(--muted)}.routecard .big{font-size:17px;font-weight:800;color:var(--cyan)}.routecard .path{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.55}.alert-item{padding:8px 11px;border:1px solid var(--line);border-radius:9px;margin-bottom:6px;font-size:12px;background:#0a1926}
+/* ===== v1.4 双角色优化界面（访客端 / 管理驾驶舱 / 工程模式） ===== */
+.personabar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,#0c1723f2,#07101af5)}
+.pbtn{font-size:12.5px;padding:9px 16px;border-radius:10px;letter-spacing:.4px}
+.pbtn.active{background:var(--cyan);color:#031016;border-color:var(--cyan);font-weight:800}
+#custView,#mgrView{display:none}
+body.mode-cust .layout,body.mode-cust .prosuite{display:none}
+body.mode-cust #custView{display:block}
+body.mode-mgr .layout,body.mode-mgr .prosuite{display:none}
+body.mode-mgr #mgrView{display:block}
+.custhero{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px;border:1px solid #1b4a5e;border-radius:14px;background:linear-gradient(120deg,#0a2233,#081724);margin-bottom:14px}
+.custhero .hello{font-size:15px;line-height:1.5}
+.ctoggle{font-size:12px;padding:8px 13px;border-radius:20px}
+.ctoggle.on{background:#123847;border-color:var(--cyan);color:var(--cyan);font-weight:700}
+.poigrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:10px}
+.poicard{border:1px solid var(--line);border-radius:13px;padding:12px;background:#0a1926;cursor:pointer;transition:.15s}
+.poicard:hover{border-color:#2e6a85;transform:translateY(-1px)}
+.poicard.sel{border-color:var(--cyan);box-shadow:0 0 16px #55f3ff22;background:#0d2434}
+.poicard .ic{font-size:21px}
+.poicard b{display:block;font-size:13px;margin:4px 0 3px}
+.poicard .meta{font-size:10.5px;color:var(--muted);display:block}
+.wpchip2{font-size:11.5px;padding:7px 12px;border-radius:20px;border:1px dashed #2b5368;background:transparent;color:var(--muted);cursor:pointer}
+.wpchip2.on{border-style:solid;border-color:var(--cyan);color:var(--cyan);background:#123847}
+.wpchip2:disabled{opacity:.4;cursor:not-allowed}
+.tl{margin:10px 0 0;padding:0;list-style:none}
+.tl li{position:relative;padding:9px 12px 9px 36px;border-left:2px solid var(--cyan);margin-left:11px;margin-bottom:7px;background:#0a1926;border-radius:0 9px 9px 0;font-size:12px}
+.tl .tlno{position:absolute;left:-11px;top:8px;width:22px;height:22px;border-radius:50%;border:1px solid var(--cyan);background:#07131e;color:var(--cyan);display:grid;place-items:center;font-size:10px}
+.tl li.start .tlno,.tl li.end .tlno{background:var(--cyan);color:#031016;font-weight:800}
+.tl .dwell{color:#ffc86c;font-size:11px;margin-left:6px}
+.mgrgrid .kpi{padding:14px}
+.mgrgrid .kpi b{font-size:23px}
+.mgrgrid .kpi span{font-size:10.5px}
+.mgralert{border-left:3px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#0a1926;font-size:12px}
+.mgralert.red{border-left-color:var(--red)}
+.mgralert.amber{border-left-color:#ffc86c}
+.mgralert.blue{border-left-color:var(--cyan)}
+.mgralert .acts{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+/* ---------- 途经点导航组件 ---------- */
+.wpbox{margin-top:14px;border:1px solid #1b3b50;border-radius:12px;padding:13px;background:#071523}
+.wphead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.wphead b{font-size:12px;color:var(--cyan);letter-spacing:.5px}
+.wpchips{display:flex;gap:7px;flex-wrap:wrap}
+.wpchip{font-size:11px;padding:6px 11px;border-radius:20px;border:1px solid #2b5368;background:#0a1926;color:var(--muted);cursor:pointer;transition:all .15s}
+.wpchip:hover{border-color:var(--cyan);color:var(--cyan)}
+.wpchip.on{background:#123847;border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px #55f3ff22}
+.wpchip.on::before{content:'✓ '}
+.wporder{margin-top:11px;padding:10px 11px;border-radius:9px;background:#0a1926;border:1px dashed #2b5368;font-size:11.5px;line-height:1.9;color:var(--white)}
+.wporder .leg{color:var(--muted);font-size:10.5px}
+.wporder .wpbadge{display:inline-block;background:#123847;color:var(--cyan);border-radius:6px;padding:1px 7px;margin:0 3px;font-size:10.5px;border:1px solid #2b5368}
+canvas.wpmap{display:block;width:100%;height:230px;margin-top:11px;border:1px solid #1b3b50;border-radius:10px;background:#04101a}
+.wpsug{margin-top:10px}
+.wpsug-item{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:8px 11px;border:1px solid #1e4156;border-radius:9px;margin-bottom:6px;font-size:11.5px;background:#0a1926}
+.wpsug-item b{color:var(--cyan)}
+.wpsug-item .sub{font-size:10.5px}
+/* ===== 真实3D地图（Mappedin 官方服务）· 懒加载，失败仅影响本页 ===== */
+.rm-status{font-size:11px;padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:#0a1926;margin-bottom:8px;line-height:1.5}
+.rm-status.ok{border-color:#255544;color:var(--green)}
+.rm-status.bad{border-color:#5c2430;color:var(--red)}
+.rm-status.load{border-color:#6b5326;color:#ffc86c}
+.rm-floors{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
+.rm-fbtn{font-size:10.5px;padding:4px 8px;border-radius:7px;border:1px solid var(--line);background:#0a1926;color:var(--muted);cursor:pointer}
+.rm-fbtn:hover{border-color:var(--cyan)}
+.rm-fbtn.active{border-color:var(--cyan);color:var(--cyan);background:#123847}
+#rmMap3d{position:absolute;inset:0;z-index:3;opacity:0;pointer-events:none;transition:opacity .4s;background:#0a1622}
+#rmMap3d.on{opacity:1;pointer-events:auto}
+#rmMap3d canvas{width:100%;height:100%;display:block;cursor:grab}
+#rmMap3d canvas:active{cursor:grabbing}
+.rm-modes{position:absolute;top:10px;left:10px;z-index:6;display:flex;gap:6px}
+.rm-modes button{font-size:11px;padding:6px 12px;border-radius:8px;border:1px solid #1c4a5e;background:rgba(8,22,34,.9);color:#7fb6cc;cursor:pointer}
+.rm-modes button.active{border-color:var(--cyan);color:var(--cyan);background:#123847}
+.rm3d-bar{position:absolute;top:10px;right:10px;z-index:6;display:flex;gap:6px}
+.rm3d-bar button{font-size:11px;padding:6px 11px;border-radius:8px;border:1px solid #1c4a5e;background:rgba(8,22,34,.9);color:#7fb6cc;cursor:pointer}
+.rm3d-bar button:hover{border-color:var(--cyan);color:var(--cyan)}
+.rm3d-tip{position:absolute;bottom:10px;left:10px;z-index:6;font-size:10px;color:#4d8aa5;background:rgba(8,22,34,.75);padding:3px 9px;border-radius:7px;pointer-events:none}
+.rm-main{display:grid;grid-template-columns:1fr 280px;gap:10px}
+@media(max-width:900px){.rm-main{grid-template-columns:1fr}}
+.rm-mapwrap{position:relative;border:1px solid #1b3b50;border-radius:12px;overflow:hidden;background:#04101a;height:560px}
+#rmMap{position:absolute;inset:0}
+.rm-hint{position:absolute;right:10px;bottom:8px;z-index:5;font-size:10px;color:var(--muted);background:#04101acc;border-radius:20px;padding:4px 10px;pointer-events:none}
+.rm-side{display:flex;flex-direction:column;gap:8px;min-height:0}
+.rm-input{width:100%;background:#0a1926;color:var(--white);border:1px solid #2b5368;border-radius:9px;padding:8px;font-size:11.5px}
+.rm-shops{flex:1;overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:12px;background:#0a1926;padding:4px}
+.rm-shop{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:5px 9px;border-radius:7px;font-size:11px;cursor:pointer;border:1px solid transparent}
+.rm-shop:hover{background:#123847}
+.rm-shop.sel{border-color:var(--cyan);background:#123847}
+.rm-shop .fl{font-size:9.5px;color:var(--muted);white-space:nowrap}
+.rm-navrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.rm-navrow .select{flex:1;min-width:150px;width:auto}
+.rm-arrow{color:var(--cyan);font-weight:800}
+.rm-route{display:none;border:1px solid var(--line);border-radius:12px;background:#0a1926;padding:12px;font-size:12px}
+.rm-route.show{display:block}
+.rm-steps{margin:8px 0 0;padding:0 0 0 18px;font-size:11.5px;line-height:1.7}
+.rm-route .rm-steps{max-height:240px;overflow-y:auto}
+</style></head>
+<body><div class="app">
+<header class="top"><div class="brand"><div class="logo">正大</div><div><div class="eyebrow">正大广场 · SUPER BRAND MALL · CP GROUP</div><h1>正大广场智能导航 <span style="color:var(--cyan)">/ AR MODE</span></h1></div></div><div class="status">● SYSTEM ONLINE · DEMO</div></header>
+<nav class="personabar">
+<button class="pbtn" id="pbEng">🔬 工程模式（全部）</button>
+<button class="pbtn" id="pbCust">🧭 访客端</button>
+<button class="pbtn" id="pbMgr">📊 管理驾驶舱</button>
+<span class="sub" style="margin-left:auto">同一数据模型 · 三种视图 · 访客端 / 管理端一致性</span>
+</nav>
+<div class="layout"><main class="panel"><div class="panelhead"><h2>01 / AR 实景导航</h2><span class="sub" id="modeLabel">SIMULATION MODE</span></div>
+<div class="scene sim" id="scene"><video id="video" autoplay playsinline muted></video><canvas id="overlay"></canvas><div class="simscene" id="simscene"><div class="wall"></div><div class="ceiling"></div><div class="shop s1" data-name="FASHION"></div><div class="shop s2" data-name="HERO DOME"></div><div class="shop s3" data-name="CAFE"></div><div class="floor"></div><div class="arpath"></div><div class="arrow"></div></div>
+<div class="hud"><div class="chip">DEST <b id="hudDest">HERO DOME</b></div><div class="chip">ROUTE <b id="routeStatus">CLEAR</b></div></div><div class="destination"><div><span class="sub">NEXT INSTRUCTION</span><strong id="instruction">直行 · 前往中庭</strong></div><div style="text-align:right"><div class="distance" id="distance">48 m</div><span class="sub">TO DESTINATION</span></div></div></div>
+<div class="scenefooter"><button class="primary" id="startBtn">▶ 开始导航</button><button id="cameraBtn">◎ 开启摄像头</button><button id="gyroBtn">⌖ 启用陀螺仪</button><button id="nextBtn">↗ 下一步指引</button><button id="stopBtn">■ 结束</button></div><div class="sensorbar"><span class="sensorpill" id="cameraStatus">摄像头：<b>未开启</b></span><span class="sensorpill" id="gyroStatus">陀螺仪：<b>未启用</b></span><span class="sensorpill" id="orientationStatus">姿态：<b>等待传感器</b></span></div></main>
+<aside class="rightcol"><section class="panel"><div class="panelhead"><h2>02 / 路线规划</h2><span class="sub">FLOOR 01</span></div><div class="content"><label class="label" for="start">起点 / START</label><select id="start" class="select"><option value="entrance">主入口</option><option value="atrium">中央中庭</option><option value="lift">电梯厅</option><option value="fashion">时尚区</option></select><label class="label" for="dest">目的地 / DESTINATION</label><select id="dest" class="select"><option value="hero">HERO DOME · 潮流店</option><option value="toilet">洗手间</option><option value="cafe">咖啡店</option><option value="lift">电梯厅</option><option value="exit">出口</option></select><div class="routeinfo"><div class="metric"><b id="meters">120 m</b><span>路线长度</span></div><div class="metric"><b id="minutes">2 min</b><span>预计时间</span></div><div class="metric"><b id="turns">3</b><span>转向次数</span></div></div><div class="actions"><button class="primary" id="planBtn">规划路线</button><button id="avoidBtn">⚡ 避开拥堵</button></div></div></section>
+<section class="panel"><div class="panelhead"><h2>03 / 楼层地图</h2><span class="sub">LIVE SIMULATION</span></div><div class="mapwrap"><svg aria-hidden="true" style="display:none"><path id="mapRoute" d="M0 0 L1 1"/><circle id="mapTarget" cx="0" cy="0" r="1"/></svg><div class="map3d-wrap"><canvas id="map3d" class="map3d" aria-label="可交互的正大广场3D地图"></canvas><div class="map3d-hint">拖动旋转 · 滚轮/双指缩放</div><div class="map3d-tools"><button type="button" id="mapResetBtn">重置视角</button><button type="button" id="mapTopBtn">俯视</button></div></div><div class="legend"><span><i class="dot green"></i>起点</span><span><i class="dot"></i>推荐路线</span><span><i class="dot red"></i>拥堵区域</span></div></div></section>
+<section class="panel"><div class="panelhead"><h2>04 / 导航步骤</h2><span class="sub" id="stepCount">STEP 1 / 3</span></div><div class="content"><div class="route-list" id="steps"><div class="step"><div class="stepno">01</div><div><strong>从主入口进入</strong><p>沿主通道直行约 35 米</p></div></div><div class="step"><div class="stepno">02</div><div><strong>经过中央中庭</strong><p>保持向前，注意现场指示</p></div></div><div class="step"><div class="stepno">03</div><div><strong>到达 HERO DOME</strong><p>目的地位于一楼潮流店区域</p></div></div></div></div></section>
+<div class="notice warning"><b>原型说明</b><br>这是课程演示原型。摄像头需在 HTTPS 或 localhost 环境并获得权限；陀螺仪需手机浏览器支持并授权。传感器只用于调整界面箭头的演示效果，不提供真实室内定位或真实方向校准。</div></aside></div>
+<section class="panel" id="custView">
+<div class="panelhead"><h2>🧭 正大广场 · 访客导航</h2><span class="sub" id="custPeriod">—</span></div>
+<div class="content">
+<div class="custhero">
+<div class="hello">👋 欢迎来到正大广场！<b id="custHello">现在去哪儿？</b></div>
+<div class="hbar" style="margin:0">
+<button class="ctoggle" id="cAcc" title="避开含台阶路段">♿ 无障碍路线</button>
+<button class="ctoggle on" id="cAvoid">🐬 避开拥挤</button>
+</div>
+</div>
+<span class="label">目的地 · 点选即规划</span>
+<div class="poigrid" id="custPois"></div>
+<span class="label">顺路去一趟？（最多 3 站 · 自动最优排序）</span>
+<div class="hbar" id="custWps" style="margin-top:4px"></div>
+<div class="routecard enh" id="custRoute" style="margin-top:14px"></div>
+<div class="actions" style="margin-top:12px">
+<button class="primary" id="custGo">▶ 开始 AR 导航</button>
+<button id="custSync">⇄ 同步到工程面板</button>
+</div>
+<div class="notice" id="custTips" style="margin-top:12px">—</div>
+</div>
+</section>
+<section class="panel" id="mgrView">
+<div class="panelhead"><h2>📊 正大广场 · 管理驾驶舱（值班经理视图）</h2><span class="sub" id="mgrPeriodLabel">—</span></div>
+<div class="content">
+<div class="hbar" style="margin:0 0 12px">
+<input type="range" id="mgrPeriod" min="0" max="4" step="1" value="3" style="flex:1;accent-color:#55f3ff">
+<span class="sub" id="mgrPeriodTxt" style="min-width:118px;text-align:right">—</span>
+<button class="smallbtn" id="mgrPredict">⏱ 看下一时段</button>
+<button class="smallbtn" id="mgrResetView">↻ 重置全部状态</button>
+</div>
+<div class="progrid mgrgrid" id="mgrKpis"></div>
+<div class="twocol" style="margin-top:14px">
+<div>
+<h4 style="margin-top:0">实时运营预警（含一键处置）</h4>
+<div id="mgrAlerts"></div>
+<h4 style="margin-top:14px">干预台 · 可解释导流</h4>
+<div id="mgrInterv"></div>
+</div>
+<div>
+<h4 style="margin-top:0">客流热力图（与访客路线同源）</h4>
+<div class="heatwrap"><canvas class="heat" id="mgrMap" style="height:300px"></canvas></div>
+<p class="sub" id="mgrMapNote" style="margin-top:6px">绿 = 顺畅 · 黄 = 繁忙 · 红 = 拥堵 · 灰 ✕ = 封闭 · 蓝虚线 = 干预导流段</p>
+<h4 style="margin-top:14px">分区态势 · 繁忙 TOP3 与低到访 TOP3</h4>
+<table class="ptable" id="mgrZones"></table>
+</div>
+</div>
+<div class="notice" style="margin-top:12px">访客端与管理端<b>共用同一图数据模型与分区标识</b>：本视图全部指标与访客路线来自同一次客流重算，点上方角色按钮即可对比双端体验。</div>
+</div>
+</section>
+<section class="panel prosuite">
+<div class="panelhead"><h2>05 / 正大广场 客流决策支持套件 · CP GROUP</h2><span class="selfcheck" id="proSelfCheck">系统自检运行中…</span></div>
+<div class="tabs">
+<button class="tab active" data-tab="engine">🧠 路径引擎 · 基线对比</button>
+<button class="tab" data-tab="heat">🔥 客流热力图</button>
+<button class="tab" data-tab="dash">📊 运营仪表盘</button>
+<button class="tab" data-tab="test">🧪 测试中心</button>
+<button class="tab" data-tab="demo">▶ 端到端演示</button>
+<button class="tab" data-tab="gov">🔒 数据治理</button>
+<button class="tab" data-tab="realmap">🗺 真实3D地图</button>
+</div>
+
+<div class="tabbody active" id="tab-engine">
+<div class="twocol">
+<div>
+<label class="label">起点（分区标识与上方 01/02 导航面板完全一致）</label>
+<select id="proStart" class="select"><option value="entrance">主入口</option><option value="atrium">中央中庭</option><option value="lift">电梯厅</option><option value="fashion">时尚区</option><option value="hero">HERO DOME</option><option value="toilet">洗手间</option><option value="cafe">咖啡店</option><option value="exit">出口</option></select>
+<label class="label">目的地</label>
+<select id="proDest" class="select"><option value="hero">HERO DOME</option><option value="toilet">洗手间</option><option value="cafe">咖啡店</option><option value="lift">电梯厅</option><option value="fashion">时尚区</option><option value="exit">出口</option><option value="atrium">中央中庭</option></select>
+<div class="hbar">
+<button id="proAvoid" class="smallbtn active">⚡ 拥堵感知增强</button>
+<button id="proAcc" class="smallbtn">♿ 无障碍模式</button>
+<button id="proSync" class="smallbtn">⇄ 同步到 01 导航面板</button>
+<button id="proSeeHeat" class="smallbtn">🔥 在热力图中查看</button>
+</div>
+<div class="notice" style="margin-top:12px">代价模型 cost = 距离 × (1 + 3.5 × 拥堵指数³)；拥堵暴露 = Σ(路段距离 × 拥堵指数) ÷ 总距离。基线（最短路径）与增强（拥堵感知）共用同一份图数据与客流指标，用于方法对比。</div>
+<div class="wpbox">
+<div class="wphead"><b>🧭 途经点导航 · 多站行程</b><span class="sub">点击分区加入行程（最多 3 站）· 基线/增强逐段对比 · 智能排序</span></div>
+<div class="wpchips" id="proWpChips"></div>
+<div class="wporder" id="proWpOrder">未选择途经点 · 当前为直达行程</div>
+<div class="hbar">
+<button id="proWpOptimize" class="smallbtn primary">✨ 智能排序（最短总程）</button>
+<button id="proWpClear" class="smallbtn">🗑 清空途经点</button>
+</div>
+<canvas id="proWpMap" class="wpmap" aria-label="多站行程迷你地图：编号站点与逐段路径"></canvas>
+<div class="wpsug" id="proWpSug"></div>
+</div>
+</div>
+<div>
+<div class="route-cards">
+<div class="routecard"><h4>基线 · 最短路径（对照组）</h4><div class="big" id="proBaseDist">—</div><div class="path" id="proBaseInfo">—</div></div>
+<div class="routecard enh"><h4 id="proEnhTitle">增强 · 拥堵感知</h4><div class="big" id="proEnhDist">—</div><div class="path" id="proEnhInfo">—</div></div>
+</div>
+<ul class="explist" id="proExplain"></ul>
+</div>
+</div>
+</div>
+
+<div class="tabbody" id="tab-heat">
+<div class="heatwrap"><canvas id="proHeat" class="heat" aria-label="正大广场分时段客流热力图"></canvas><div class="map3d-hint">数字孪生粒子流 · 粒子密度 ∝ 通道客流</div></div>
+<div class="hbar">
+<span class="sub">运营时段</span>
+<input type="range" id="proPeriod" min="0" max="4" value="3" style="flex:1;min-width:140px;accent-color:#55f3ff">
+<b id="proPeriodLabel" style="font-size:12px;color:var(--cyan);min-width:130px">晚高峰 18–21</b>
+<button id="proPlay" class="smallbtn">▶ 自动轮播时段</button>
+</div>
+<div class="legend" style="margin-top:10px"><span><i class="dot" style="background:#2aa57a"></i>畅通 &lt;50%</span><span><i class="dot" style="background:#c2a01f"></i>繁忙 50–75%</span><span><i class="dot" style="background:#e24b4a"></i>拥堵 &gt;75%</span><span><i class="dot" style="background:#5a6a75"></i>临时封闭</span></div>
+<div class="notice" style="margin-top:10px">模拟数据 · 分区级聚合 · 位置精度 ±5–8 m · 不含任何个人轨迹。封闭/激增模拟器（测试中心页）会实时反映到本图。</div>
+</div>
+
+<div class="tabbody" id="tab-dash">
+<h4 style="margin-top:0">运营 KPI · <span id="proDashPeriod">—</span>（与访客端共享同一份图数据与客流指标）</h4>
+<div class="progrid" id="proKpis"></div>
+<div class="twocol" style="margin-top:14px">
+<div>
+<h4 style="margin-top:0">分区指标表（footfall / dwell / 转移 / 排队压力 / 拥堵）</h4>
+<table class="ptable" id="proZoneTable"></table>
+</div>
+<div>
+<h4 style="margin-top:0">实时预警（瓶颈 · 封闭 · 排队 · 激增）</h4>
+<div id="proAlerts"></div>
+<h4>预测性拥堵预警（下一时段推算）</h4>
+<div class="notice" id="proPredict">—</div>
+<h4>可解释干预（Explainable Intervention）</h4>
+<div class="demo-step" id="proInterv">—</div>
+</div>
+</div>
+</div>
+
+<div class="tabbody" id="tab-test">
+<div class="hbar" style="margin-top:0"><button class="primary smallbtn" id="proRunTests">▶ 运行全部测试</button><span class="sub">功能 · 边界 · 无障碍 · 隐私 · 性能 · 可复现 · 多站导航 · 双角色界面（每次测试后自动恢复图状态与途经点）</span></div>
+<div id="proTests" style="margin-top:12px"></div>
+<div class="twocol" style="margin-top:16px">
+<div>
+<h4 style="margin-top:0">现场模拟器（直接作用于全局共享图状态，各视图同步刷新）</h4>
+<label class="label">选择通道</label>
+<select id="proEdgeSel" class="select"></select>
+<div class="hbar">
+<button id="proClose" class="smallbtn">⛔ 临时封闭</button>
+<button id="proReopen" class="smallbtn">↩ 恢复通行</button>
+<button id="proSurge" class="smallbtn">🔥 拥堵激增 +750 人/h</button>
+<button id="proClearSurge" class="smallbtn">✓ 清除激增</button>
+<button id="proResetState" class="smallbtn">↺ 重置图状态</button>
+</div>
+</div>
+<div><h4 style="margin-top:0">测试说明</h4><p class="sub" style="line-height:1.7">测试临时修改图状态（封闭、断连通、激增、无障碍约束）并在结束后恢复，不影响演示进度。同一种子 + 同一图状态 → 必得同一结果（T7 可复现性验证）。全部测试在页面加载时自动运行一次，结果见右上角自检徽标。</p></div>
+</div>
+</div>
+
+<div class="tabbody" id="tab-demo">
+<div class="demo-step" id="proDemoCard">—</div>
+<div class="hbar" style="margin-top:12px">
+<button id="proDemoPrev" class="smallbtn">← 上一步</button>
+<button id="proDemoNext" class="smallbtn primary">下一步 →</button>
+<button id="proDemoAuto" class="smallbtn">▶ 自动播放</button>
+<button id="proDemoReset" class="smallbtn">↺ 重置演示</button>
+<span class="sub" id="proDemoCount">1 / 8</span>
+</div>
+<div class="notice" style="margin-top:12px">演示完整回溯：<b>一条访客路线</b>（途经点多站 → 临时封闭 → 可解释重路由 → 拥堵叠加改道）+ <b>一个管理决策</b>（瓶颈预警 → 导流干预 → 前后对比）。</div>
+</div>
+
+<div class="tabbody" id="tab-gov">
+<div class="twocol">
+<div>
+<h4 style="margin-top:0">系统边界与验收标准（技术规格摘要）</h4>
+<p class="sub">用户：访客（寻路导航）/ 值班经理（运营决策）。场景：正大广场单层试点楼层、有限出入口与 POI。边界内：统一图数据模型、客流指标、热力图、拥堵感知路由、访客端 + 管理端双视图、边界与隐私测试；边界外：真实室内定位、人脸识别、实时摄像头/传感器、硬件采购、可识别个人轨迹、多商场部署、企业系统集成。</p>
+<h4>隐私保障（Privacy-by-Design）</h4>
+<p class="sub" style="line-height:1.8">· 客流全部为<b style="color:var(--white)">模拟 / 匿名聚合数据</b>，无姓名、设备号、影像字段；<br>· 分区级区域计数，不做个人级追踪；<br>· 位置精度声明 ±5–8 m，不足以反推个人身份；<br>· 记录字段白名单经 T8 结构化测试强制校验；<br>· 不采集、不存储、不传输任何可识别访客信息。</p>
+<h4>位置精度与关键假设</h4>
+<p class="sub">假设：步行速度约 1.2 m/s；通道通行能力按宽度估算；驻留时长取业态典型值加有界扰动；返程客流系数 0.45；OD 分布为教学假设。<b style="color:#ffc86c">模拟模式识别不等于真实行为证明</b>——所有拥堵推算须经实地匿名计数验证后方可用于运营决策。</p>
+<h4>数据更新方法（Documented Update Method）</h4>
+<p class="sub">正式流程：采集周期（建议 1 周）→ 匿名分区计数 → 数据字典校验 → 种子化导入并全链路重算。本原型：修改种子 → 点击重新生成，指标 / 热力图 / 路由 / 测试自动重算且保持可复现。</p>
+<div class="hbar"><input type="number" id="proSeed" value="2026" min="1" max="99999" style="width:100px;background:#0a1926;color:var(--white);border:1px solid #2b5368;border-radius:8px;padding:8px"><button class="smallbtn" id="proRegen">↻ 重新生成模拟数据</button><span class="sub" id="proRegenNote"></span></div>
+</div>
+<div>
+<h4 style="margin-top:0">数据字典 · 客流记录 journeys</h4>
+<table class="ptable"><tr><th>字段</th><th>类型</th><th>说明</th></tr><tr><td>id</td><td>string</td><td>匿名访客编号 V-####（顺序生成，不可关联真实身份）</td></tr><tr><td>period</td><td>string</td><td>所属运营时段（5 档）</td></tr><tr><td>entry / dest</td><td>zone_id</td><td>入口 / 目的地分区标识（与图模型一致）</td></tr><tr><td>steps</td><td>int</td><td>路径步数（经过边数）</td></tr><tr><td>dwellMin</td><td>float</td><td>目的地驻留分钟（业态典型值 ± 有界扰动）</td></tr></table>
+<h4>样本客流记录（前 8 条 / 共 <span id="proJourneyCount">—</span> 条）</h4>
+<table class="ptable" id="proJourneys"></table>
+</div>
+</div>
+<h4>评审反馈迭代记录（Feedback-based Iteration）</h4>
+<div class="hbar" style="gap:8px">
+<span class="badge ok">v1.0 初始原型：AR 导航 + 3D 地图 + 模拟传感器</span>
+<span class="badge warn">v1.1 评审反馈：缺基线对比与可解释性 → 增加路径引擎双卡对比 + 逐条解释</span>
+<span class="badge warn">v1.2 评审反馈：缺边界/隐私验证 → 增加 9 项自动测试、无障碍属性、数据治理页</span>
+<span class="badge ok">v1.3 新需求：导航加入途经点 → 多站行程逐段规划 · 智能排序（穷举最优）· 顺路推荐 · 迷你行程图 · 面板多站同步（11 项自动测试）</span>
+<span class="badge ok">v1.4 双角色优化界面：访客端（点选即规划 · 顺路加站 · 一键 AR 导航）+ 管理驾驶舱（KPI · 一键处置 · 干预台 · 热力图）· 12 项自动测试</span>
+</div>
+<h4>需求覆盖对照（Requirements Traceability）</h4>
+<table class="ptable">
+<tr><th>需求条目</th><th>实现位置</th></tr>
+<tr><td>图 / 空间数据模型（分区 · 路径 · 入口 · POI · 无障碍 · 时段）</td><td>路径引擎 + 治理页（8 节点 9 通道，stepFree 属性，5 运营时段）</td></tr>
+<tr><td>样本客流记录 + 可解释指标（footfall / dwell / 转移 / 排队 / 拥堵）</td><td>治理页数据字典与样本记录 + 仪表盘分区指标表</td></tr>
+<tr><td>热力图（map-based，分时段）</td><td>客流热力图（含数字孪生粒子流动画）</td></tr>
+<tr><td>有界优化方法 + 基线对比</td><td>路径引擎（最短路径基线 vs 拥堵感知增强，量化对比）</td></tr>
+<tr><td>访客端 + 管理端共享数据、一致分区标识</td><td>顶栏角色切换：访客端 / 管理驾驶舱 / 工程模式三视图共用同一图模型与分区 ID（T12）</td></tr>
+<tr><td>边界测试（封闭 / 断连通 / 拥堵 / 无障碍）</td><td>测试中心 T3–T6 + 现场模拟器（全视图联动）</td></tr>
+<tr><td>隐私、位置精度限制、数据更新方法</td><td>治理页 + T8 隐私结构测试</td></tr>
+<tr><td>可解释干预（one explainable intervention）</td><td>仪表盘 · 干预建议（导流方案 + 前后对比 + 推算声明）</td></tr>
+<tr><td>访客 / 管理情景端到端演示（含封闭处理与解释）</td><td>端到端演示（8 步剧本，含途经点多站场景）</td></tr>
+<tr><td>技术报告要素（架构 · 假设 · 验证 · 局限 · 试点路径）</td><td>治理页规格摘要 / 假设与精度声明 / 11 项自动测试 / 局限性声明 / 下方试点路径路线图</td></tr>
+</table>
+<h4>通往公司试点的现实路径（Pathway to Pilot）</h4>
+<table class="ptable">
+<tr><th style="width:110px">阶段</th><th>做什么</th><th>复用什么 · 换掉什么</th></tr>
+<tr><td><b>P0 课程原型</b><br><span class="sub">当前</span></td><td>模拟客流 + 浏览器内计算；指标、热力图、拥堵感知路由、双视图、11 项自检全部可复现（种子驱动）。</td><td>— 保留：图数据模型 / 数据字典 / 指标与路由算法 / 测试框架</td></tr>
+<tr><td><b>P1 数据替换</b><br><span class="sub">0–3 月</span></td><td>单层试点部署<b>匿名分区计数</b>（光幕计数器 / WiFi 探针聚合统计，均不含个人标识），按数据字典字段以 1 周为周期导入，替换 OD 模拟分布。</td><td>换掉：模拟客流生成器 → 保留：全部指标计算与仪表盘</td></tr>
+<tr><td><b>P2 校准验证</b><br><span class="sub">3–6 月</span></td><td>模拟指标 vs 实测计数对照：校准通道通行能力、驻留典型值、返程系数；热力图与人工巡场抽查一致性 ≥80% 后进入下一阶段。</td><td>换掉：假设参数 → 保留：可解释干预与基线对比方法</td></tr>
+<tr><td><b>P3 受控上线</b><br><span class="sub">6–12 月</span></td><td>拥堵预警接入值班经理流程；A/B 验证导航建议采纳率与绕行收益；正式数据治理（DPIA 评估、保留期限、集成审批）。全程维持分区级聚合，不升级为个人级追踪。</td><td>换掉：教学演示面板 → 保留：隐私白名单与一致性分区标识</td></tr>
+</table>
+<p class="sub" style="margin-top:6px">该路径与项目边界一致：不含真实室内定位、人脸识别、实时摄像头/传感器、可识别访客轨迹与企业系统集成——这些属于生产系统治理范畴，由公司侧在 P3 前置评估。</p>
+<div class="notice warning" style="margin-top:12px"><b>局限性声明</b><br>本系统为课程验证原型：客流为模拟数据，指标用于方法演示，不构成真实行为证明；生产部署需实采匿名计数、基础设施集成与进一步数据治理（见边界外清单）。</div>
+</div>
+
+<div class="tabbody" id="tab-realmap">
+<div class="rm-status" id="rmStatus">🟡 点击本页任意位置连接官方地图服务 · 需联网 · 首次约 10–20 秒</div>
+<div class="rm-floors" id="rmFloors"><span class="sub" style="font-size:11px;align-self:center">楼层切换将在地图加载后出现…</span></div>
+<div class="rm-main">
+<div class="rm-mapwrap"><div id="rmMap"></div><div id="rmMap3d" class="on"><canvas id="rm3dCanvas"></canvas><div class="rm3d-bar" id="rm3dBar" style="display:none"><button id="rm3dReset">🔄 重置视角</button><button id="rm3dTop">👆 俯视</button></div><div class="rm3d-tip" id="rm3dTip">Three.js 立体建筑加载中…</div></div><div class="rm-modes"><button id="rmMode3d" class="active">🧊 立体3D</button><button id="rmModeFlat">🗺 官方平面</button></div><div class="rm-hint" id="rmHint">官方平面图 · 双指/滚轮缩放</div></div>
+<div class="rm-side">
+<input id="rmSearch" class="rm-input" placeholder="🔍 搜索真实店铺（如：蟹黄面 / LINLEE / 咖啡）">
+<div id="rmShops" class="rm-shops"><div style="padding:10px;color:var(--muted);font-size:11px">等待地图加载后显示当前楼层店铺列表…</div></div>
+</div>
+</div>
+<div class="rm-nav">
+<h4 style="margin-top:12px;font-size:12.5px">🧭 真实室内导航 · 跨楼层可达路径</h4>
+<div class="rm-navrow">
+<select id="rmFrom" class="select"><option>加载后可选…</option></select>
+<span class="rm-arrow">→</span>
+<select id="rmTo" class="select"><option>加载后可选…</option></select>
+<button class="primary" id="rmGo">开始真实导航</button>
+<button id="rmClear">清除路线</button>
+</div>
+<div id="rmRoute" class="rm-route"></div>
+</div>
+<div class="notice" style="margin-top:10px"><b>数据说明</b>：本页为正大广场官方地图服务的<b>真实 13 层几何与店铺名录</b>，导航为官方路网计算的真实可达路径（支持跨楼层）；其余标签页的客流与拥堵指标为课程原型模拟数据，两层相互独立。</div>
+</div>
+</section>
+<div class="footer">NAV//AR · 正大广场 SUPER BRAND MALL · CP GROUP · STUDENT PROTOTYPE</div></div>
+<script>
+const $=id=>document.getElementById(id);let live=false,stream=null,step=0,avoiding=false,navigating=false,gyroEnabled=false,orientation={alpha:0,beta:0,gamma:0};const dests={hero:{name:'HERO DOME',m:120,t:2,turns:3,inst:['直行 · 前往中庭','右转 · 进入潮流店区域','到达目的地 · HERO DOME'],coords:[164,87]},toilet:{name:'洗手间',m:85,t:2,turns:2,inst:['直行 · 经过中央中庭','左转 · 沿右侧通道前进','到达目的地 · 洗手间'],coords:[256,148]},cafe:{name:'CAFE',m:105,t:2,turns:2,inst:['直行 · 前往中央中庭','右转 · 沿店铺外侧通道','到达目的地 · 咖啡店'],coords:[256,66]},lift:{name:'电梯厅',m:55,t:1,turns:1,inst:['直行 · 沿主通道前进','左转 · 进入电梯厅','到达目的地 · 电梯厅'],coords:[66,148]},exit:{name:'出口',m:90,t:2,turns:2,inst:['沿主通道直行','经过中央中庭后向南','到达目的地 · 出口'],coords:[160,200]}};
+function updatePlan(){const d=dests[$('dest').value];$('hudDest').textContent=d.name;$('meters').textContent=(avoiding?d.m+25:d.m)+' m';$('minutes').textContent=(avoiding?d.t+1:d.t)+' min';$('turns').textContent=avoiding?d.turns+1:d.turns;$('distance').textContent=(avoiding?d.m+25:d.m)+' m';$('routeStatus').textContent=avoiding?'REROUTED':'CLEAR';$('instruction').textContent=d.inst[Math.min(step,2)];$('stepCount').textContent='STEP '+(Math.min(step,2)+1)+' / 3';$('mapTarget').setAttribute('cx',d.coords[0]);$('mapTarget').setAttribute('cy',d.coords[1]);let start=$('start').value;let startCoords={entrance:[160,200],atrium:[164,148],lift:[66,148],fashion:[66,66]}[start];$('mapRoute').setAttribute('d',`M${startCoords[0]} ${startCoords[1]} L${startCoords[0]} 100 L${d.coords[0]} 100 L${d.coords[0]} ${d.coords[1]}`);if(avoiding){$('mapRoute').setAttribute('stroke','#75ffbe')}else{$('mapRoute').setAttribute('stroke','#55f3ff')}const labels={entrance:'主入口',atrium:'中央中庭',lift:'电梯厅',fashion:'时尚区'};const steps=[{title:'从'+labels[start]+'出发',desc:'沿主通道前进，留意现场标识'},{title:avoiding?'绕开模拟拥堵区域':'经过中央通道',desc:avoiding?'系统推荐替代路径以避开高客流区':'按地图路线前往目标区域'},{title:'到达 '+d.name,desc:'确认现场店铺与楼层标识'}];$('steps').innerHTML=steps.map((s,i)=>`<div class="step"><div class="stepno">${String(i+1).padStart(2,'0')}</div><div><strong>${s.title}</strong><p>${s.desc}</p></div></div>`).join('')}
+$('planBtn').onclick=()=>{step=0;navigating=false;updatePlan();$('startBtn').textContent='▶ 开始导航';};$('dest').onchange=updatePlan;$('start').onchange=updatePlan;$('avoidBtn').onclick=()=>{avoiding=!avoiding;$('avoidBtn').classList.toggle('active',avoiding);$('avoidBtn').textContent=avoiding?'✓ 已启用避堵':'⚡ 避开拥堵';updatePlan()};$('startBtn').onclick=()=>{navigating=!navigating;step=0;$('startBtn').textContent=navigating?'Ⅱ 暂停导航':'▶ 开始导航';if(navigating){$('instruction').textContent='导航已开始 · '+dests[$('dest').value].inst[0]}else $('instruction').textContent='导航已暂停';};$('nextBtn').onclick=()=>{step=(step+1)%3;updatePlan();if(navigating)$('instruction').textContent=dests[$('dest').value].inst[step]};$('stopBtn').onclick=()=>{navigating=false;step=0;$('startBtn').textContent='▶ 开始导航';$('instruction').textContent='导航已结束 · 选择目的地重新规划';$('distance').textContent='—';};
+function setStatus(id,label,value){$(id).innerHTML=label+'：<b>'+value+'</b>'}
+function isSecureCameraContext(){return window.isSecureContext || location.hostname==='localhost' || location.hostname==='127.0.0.1'}
+function cameraHelp(message){setStatus('cameraStatus','摄像头','需要安全网址');$('modeLabel').textContent='CAMERA PERMISSION REQUIRED';alert(message)}
+async function toggleCamera(){
+ if(live){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('video').srcObject=null;live=false;$('scene').className='scene sim';$('cameraBtn').textContent='◎ 开启摄像头';$('modeLabel').textContent='SIMULATION MODE';setStatus('cameraStatus','摄像头','已关闭');return}
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){cameraHelp('当前页面没有可用的摄像头 API。你现在可能是从文件管理器直接打开 HTML（file://）。请将文件部署到 HTTPS 网站，再用 Android Chrome 打开。');return}
+ if(!isSecureCameraContext()){cameraHelp('当前页面不是安全上下文（通常是 file:// 本地文件）。Android Chrome 通常只允许 HTTPS 或 localhost 页面调用摄像头。请先将 HTML 发布到 HTTPS 静态网站，再在 Chrome 中打开并允许摄像头权限。');return}
+ try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});$('video').srcObject=stream;await new Promise((resolve,reject)=>{if($('video').readyState>=2){resolve();return}$('video').onloadedmetadata=resolve;setTimeout(()=>reject(new Error('camera-timeout')),10000)});await $('video').play();live=true;$('scene').className='scene live';$('cameraBtn').textContent='◎ 关闭摄像头';$('modeLabel').textContent='CAMERA + SENSOR AR';setStatus('cameraStatus','摄像头','已开启');drawOverlay();}
+ catch(e){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;live=false;setStatus('cameraStatus','摄像头','开启失败');let msg='无法开启摄像头。';if(e.name==='NotAllowedError')msg+='你拒绝了摄像头权限，请在浏览器网站设置中允许摄像头。';else if(e.name==='NotFoundError')msg+='没有找到可用摄像头。';else if(e.name==='NotReadableError')msg+='摄像头可能正被其他应用占用，请关闭其他使用摄像头的应用后重试。';else msg+='请确认使用 HTTPS/localhost、浏览器有摄像头权限，并重新尝试。';alert(msg+'\n\n错误：'+(e.name||e.message||'未知错误'));}
+}
+async function enableGyro(){try{if(!('DeviceOrientationEvent' in window)){alert('此设备或浏览器不支持方向传感器。');return}if(typeof DeviceOrientationEvent.requestPermission==='function'){const permission=await DeviceOrientationEvent.requestPermission();if(permission!=='granted'){setStatus('gyroStatus','陀螺仪','权限被拒绝');alert('未获得陀螺仪权限。请在点击按钮后允许访问方向传感器。');return}}window.addEventListener('deviceorientation',onOrientation,true);window.addEventListener('deviceorientationabsolute',onOrientation,true);gyroEnabled=true;$('gyroBtn').textContent='⌖ 关闭陀螺仪';setStatus('gyroStatus','陀螺仪','已启用');}catch(e){alert('无法启用陀螺仪。请使用支持方向传感器的手机浏览器，并在 HTTPS 页面中操作。\n错误：'+(e.message||e));}}
+function disableGyro(){window.removeEventListener('deviceorientation',onOrientation,true);window.removeEventListener('deviceorientationabsolute',onOrientation,true);gyroEnabled=false;$('gyroBtn').textContent='⌖ 启用陀螺仪';setStatus('gyroStatus','陀螺仪','未启用');setStatus('orientationStatus','姿态','等待传感器')}
+function onOrientation(e){if(e.alpha==null&&e.beta==null&&e.gamma==null){setStatus('orientationStatus','姿态','无数据');return}orientation={alpha:e.alpha||0,beta:e.beta||0,gamma:e.gamma||0};setStatus('orientationStatus','姿态',`β ${Math.round(orientation.beta)}° · γ ${Math.round(orientation.gamma)}°`)}
+$('gyroBtn').onclick=()=>gyroEnabled?disableGyro():enableGyro();$('cameraBtn').addEventListener('click',()=>{toggleCamera().catch(e=>{setStatus('cameraStatus','摄像头','开启失败');alert('摄像头启动失败：'+(e.message||e))})});
+function drawOverlay(){if(!live)return;const c=$('overlay'),v=$('video'),r=v.getBoundingClientRect();if(c.width!==Math.round(r.width*devicePixelRatio)||c.height!==Math.round(r.height*devicePixelRatio)){c.width=Math.round(r.width*devicePixelRatio);c.height=Math.round(r.height*devicePixelRatio)}const ctx=c.getContext('2d');ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);ctx.clearRect(0,0,r.width,r.height);const x=r.width/2,y=r.height*.62;const tilt=gyroEnabled?Math.max(-28,Math.min(28,orientation.gamma)):0;ctx.save();ctx.translate(x,y);ctx.rotate(tilt*Math.PI/180);ctx.strokeStyle='#55f3ff';ctx.fillStyle='#55f3ff';ctx.lineWidth=3;ctx.shadowColor='#55f3ff';ctx.shadowBlur=15;ctx.beginPath();ctx.moveTo(0,65);ctx.lineTo(0,-30);ctx.stroke();ctx.beginPath();ctx.moveTo(-24,-7);ctx.lineTo(0,-34);ctx.lineTo(24,-7);ctx.stroke();ctx.restore();ctx.shadowBlur=0;ctx.font='bold 12px system-ui';ctx.fillStyle='#55f3ff';ctx.fillText(gyroEnabled?'SENSOR ALIGNED · FOLLOW AR PATH':'FOLLOW AR PATH',x-72,y+90);if(gyroEnabled){ctx.font='11px system-ui';ctx.fillText('TILT '+Math.round(tilt)+'°',12,r.height-25)}requestAnimationFrame(drawOverlay)}
+// --- 交互式伪3D商场地图：无需外部库，支持拖动旋转与触控缩放 ---
+const mapCanvas=$('map3d'), mapCtx=mapCanvas.getContext('2d');
+const mapState={yaw:-0.62,pitch:0.82,zoom:1.0,drag:false,lastX:0,lastY:0,top:false};
+const mapPlaces={entrance:{p:[0,0,7],label:'主入口',color:'#75ffbe'},atrium:{p:[0,0,0],label:'中央中庭',color:'#55f3ff'},lift:{p:[-6,0,0],label:'电梯厅',color:'#55f3ff'},fashion:{p:[-6,0,-5],label:'时尚区',color:'#55f3ff'},hero:{p:[0,0,-6],label:'HERO DOME',color:'#55f3ff'},toilet:{p:[6,0,0],label:'洗手间',color:'#ff586c'},cafe:{p:[6,0,-5],label:'咖啡店',color:'#55f3ff'},exit:{p:[0,0,7],label:'出口',color:'#75ffbe'}};
+function mapResize(){const r=mapCanvas.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);mapCanvas.width=Math.max(1,Math.floor(r.width*dpr));mapCanvas.height=Math.max(1,Math.floor(r.height*dpr));mapCtx.setTransform(dpr,0,0,dpr,0,0);draw3DMap()}
+function project3(p){const [x,y,z]=p,cy=Math.cos(mapState.yaw),sy=Math.sin(mapState.yaw),cp=Math.cos(mapState.pitch),sp=Math.sin(mapState.pitch);const rx=x*cy-z*sy,rz=x*sy+z*cy;const ry=y*cp-rz*sp,depth=y*sp+rz*cp;const w=mapCanvas.clientWidth,h=mapCanvas.clientHeight,scale=Math.min(w/23,h/17)*mapState.zoom;const persp=13/(13+depth*.12);return [w*.5+rx*scale*persp,h*.54+ry*scale*persp,depth]}
+function line3(a,b,color,width=1,dash=[]){const A=project3(a),B=project3(b);mapCtx.beginPath();mapCtx.setLineDash(dash);mapCtx.moveTo(A[0],A[1]);mapCtx.lineTo(B[0],B[1]);mapCtx.strokeStyle=color;mapCtx.lineWidth=width;mapCtx.stroke();mapCtx.setLineDash([])}
+function poly3(points,fill,stroke){mapCtx.beginPath();points.map(project3).forEach((p,i)=>i?mapCtx.lineTo(p[0],p[1]):mapCtx.moveTo(p[0],p[1]));mapCtx.closePath();mapCtx.fillStyle=fill;mapCtx.fill();mapCtx.strokeStyle=stroke;mapCtx.lineWidth=1;mapCtx.stroke()}
+function box3(cx,cz,w,d,h,label,color){const x1=cx-w/2,x2=cx+w/2,z1=cz-d/2,z2=cz+d/2,y0=0,y1=-h;poly3([[x1,y0,z1],[x2,y0,z1],[x2,y0,z2],[x1,y0,z2]],'#102b3c','#326176');poly3([[x1,y0,z1],[x2,y0,z1],[x2,y1,z1],[x1,y1,z1]],'#17394c','#326176');poly3([[x2,y0,z1],[x2,y0,z2],[x2,y1,z2],[x2,y1,z1]],'#0b1d2a','#2a5369');const q=project3([cx,y1-.25,cz]);mapCtx.fillStyle=color;mapCtx.font='10px system-ui';mapCtx.textAlign='center';mapCtx.fillText(label,q[0],q[1]);}
+function draw3DMap(){if(!mapCanvas||!mapCtx)return;const w=mapCanvas.clientWidth,h=mapCanvas.clientHeight;if(!w||!h)return;mapCtx.clearRect(0,0,w,h);const grad=mapCtx.createLinearGradient(0,0,0,h);grad.addColorStop(0,'#0b1b29');grad.addColorStop(1,'#03080e');mapCtx.fillStyle=grad;mapCtx.fillRect(0,0,w,h);
+// floor slab and grid
+poly3([[-10,-.18,-8],[10,-.18,-8],[10,-.18,9],[-10,-.18,9]],'#091722','#244357');for(let x=-10;x<=10;x+=1)line3([x,-.15,-8],[x,-.15,9],'#183247',.55);for(let z=-8;z<=9;z+=1)line3([-10,-.15,z],[10,-.15,z],'#183247',.55);
+// corridor boundaries
+line3([-10,0,-2],[10,0,-2],'#41677b',3);line3([-10,0,2],[10,0,2],'#41677b',3);line3([-3,0,-8],[-3,0,9],'#41677b',3);line3([3,0,-8],[3,0,9],'#41677b',3);
+box3(-6,-5,4,3,1.5,'时尚区','#9adce8');box3(0,-6,4.3,3.2,1.7,'HERO DOME','#55f3ff');box3(6,-5,3.2,3,1.4,'咖啡店','#9adce8');box3(-6,0,3.2,2.8,1.2,'电梯厅','#9adce8');box3(6,0,3.2,2.8,1.2,'洗手间','#ff8996');
+// route path from selected start to selected destination
+const startKey=$('start')?.value||'entrance',destKey=$('dest')?.value||'hero',A=mapPlaces[startKey]||mapPlaces.entrance,B=mapPlaces[destKey]||mapPlaces.hero;const route=[A.p,[A.p[0],0,0],[0,0,0],[B.p[0],0,0],B.p];for(let i=0;i<route.length-1;i++)line3(route[i],route[i+1],avoiding?'#75ffbe':'#55f3ff',3,[.15,.1]);
+for(const [key,place] of Object.entries(mapPlaces)){if(key==='exit'&&destKey!=='exit')continue;const pt=project3(place.p);mapCtx.beginPath();mapCtx.arc(pt[0],pt[1],key===destKey?5:3.5,0,Math.PI*2);mapCtx.fillStyle=key===startKey?'#75ffbe':key===destKey?'#55f3ff':place.color;mapCtx.shadowColor=mapCtx.fillStyle;mapCtx.shadowBlur=key===destKey?12:5;mapCtx.fill();mapCtx.shadowBlur=0;if(['entrance','atrium',destKey].includes(key)){mapCtx.font='10px system-ui';mapCtx.textAlign='center';mapCtx.fillStyle='#eafaff';mapCtx.fillText(place.label,pt[0],pt[1]-9)}}
+mapCtx.fillStyle='#8ba3b8';mapCtx.font='9px system-ui';mapCtx.textAlign='left';mapCtx.fillText('LEVEL 01 · 3D SCHEMATIC',10,h-10)}
+mapCanvas.addEventListener('pointerdown',e=>{mapState.drag=true;mapState.lastX=e.clientX;mapState.lastY=e.clientY;mapCanvas.setPointerCapture(e.pointerId)});mapCanvas.addEventListener('pointermove',e=>{if(!mapState.drag)return;const dx=e.clientX-mapState.lastX,dy=e.clientY-mapState.lastY;mapState.lastX=e.clientX;mapState.lastY=e.clientY;mapState.yaw+=dx*.009;mapState.pitch=Math.max(.25,Math.min(1.35,mapState.pitch+dy*.006));draw3DMap()});mapCanvas.addEventListener('pointerup',()=>mapState.drag=false);mapCanvas.addEventListener('pointercancel',()=>mapState.drag=false);mapCanvas.addEventListener('wheel',e=>{e.preventDefault();mapState.zoom=Math.max(.65,Math.min(1.8,mapState.zoom*(e.deltaY>0?.92:1.08)));draw3DMap()},{passive:false});let pinchDistance=0;mapCanvas.addEventListener('touchstart',e=>{if(e.touches.length===2)pinchDistance=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)},{passive:true});mapCanvas.addEventListener('touchmove',e=>{if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(pinchDistance){mapState.zoom=Math.max(.65,Math.min(1.8,mapState.zoom*d/pinchDistance));draw3DMap()}pinchDistance=d}},{passive:true});$('mapResetBtn').onclick=()=>{mapState.yaw=-.62;mapState.pitch=.82;mapState.zoom=1;draw3DMap()};$('mapTopBtn').onclick=()=>{mapState.pitch=.25;mapState.yaw=0;draw3DMap()};window.addEventListener('resize',mapResize);
+// Route planner refresh also refreshes 3D map
+const originalUpdatePlan=updatePlan;updatePlan=function(){originalUpdatePlan();draw3DMap()};
+mapResize();updatePlan();
+</script>
+<script>
+/* ===== 正大广场（CP Group）客流决策支持套件（PRO Suite）· 独立 IIFE，不改动、不覆盖上方任何原有代码 ===== */
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function rng(seed){let t=seed>>>0;return function(){t+=0x6D2B79F5;let r=Math.imul(t^t>>>15,1|t);r^=r+Math.imul(r^r>>>7,61|r);return((r^r>>>14)>>>0)/4294967296}}
+
+/* ---------- 统一空间数据模型：分区标识与 01/02 导航面板完全一致 ---------- */
+const NODES={
+ entrance:{name:'主入口',type:'entrance',x:0,z:7},
+ exit:{name:'出口',type:'exit',x:1.6,z:7.8},
+ atrium:{name:'中央中庭',type:'junction',x:0,z:0},
+ lift:{name:'电梯厅',type:'poi',x:-6,z:0},
+ fashion:{name:'时尚区',type:'zone',x:-6,z:-5},
+ hero:{name:'HERO DOME',type:'zone',x:0,z:-6},
+ toilet:{name:'洗手间',type:'poi',x:6,z:0},
+ cafe:{name:'咖啡店',type:'poi',x:6,z:-5}
+};
+const EDGES=[
+ {id:'e1',a:'entrance',b:'atrium',dist:70,cap:2200,stepFree:true,name:'南主通道'},
+ {id:'e2',a:'exit',b:'atrium',dist:80,cap:1200,stepFree:true,name:'东侧出口通道'},
+ {id:'e3',a:'atrium',b:'lift',dist:60,cap:900,stepFree:true,name:'西侧通道'},
+ {id:'e4',a:'atrium',b:'toilet',dist:60,cap:1400,stepFree:true,name:'东侧通道'},
+ {id:'e5',a:'atrium',b:'hero',dist:50,cap:1150,stepFree:true,name:'中庭北通道（窄）'},
+ {id:'e6',a:'lift',b:'fashion',dist:50,cap:700,stepFree:false,name:'西侧支线（含4级台阶）'},
+ {id:'e7',a:'toilet',b:'cafe',dist:50,cap:700,stepFree:true,name:'东侧支线'},
+ {id:'e8',a:'fashion',b:'hero',dist:60,cap:750,stepFree:true,name:'北侧连廊A（西）'},
+ {id:'e9',a:'cafe',b:'hero',dist:60,cap:750,stepFree:true,name:'北侧连廊B（东）'}
+];
+const PERIODS=[
+ {label:'早高峰 08–11',vol:.8,bias:{hero:.9,cafe:1.2,fashion:1.1,toilet:1}},
+ {label:'午间 11–14',vol:1,bias:{cafe:2,toilet:1.5,hero:.8}},
+ {label:'下午 14–18',vol:.85,bias:{fashion:1.5,hero:1.1,cafe:.9}},
+ {label:'晚高峰 18–21',vol:1.25,bias:{hero:1.6,cafe:1.3,fashion:1.2,toilet:1.2,lift:1}},
+ {label:'闭店前 21–22:30',vol:.5,bias:{hero:.6,cafe:.8}}
+];
+const OD=[['entrance','hero',210],['entrance','cafe',150],['entrance','fashion',130],['entrance','toilet',70],['entrance','lift',90],['lift','fashion',70],['atrium','toilet',45],['atrium','cafe',50]];
+const DWELL={hero:14,cafe:22,fashion:16,toilet:5,lift:3,atrium:6,entrance:2,exit:1};
+const QCAP={toilet:180,cafe:350,lift:220};
+const TYPELAB={entrance:'入口',exit:'出口',junction:'枢纽',poi:'POI',zone:'分区'};
+
+const state={period:3,closed:new Set(),surge:null,accMode:false,avoid:true,intervention:null,seed:2026,wps:[]};
+let IND={flows:[],zone:[]};
+let JOURNEYS=[];
+let interBefore=null;
+
+/* ---------- 路由引擎：Dijkstra（基线最短路径 vs 拥堵感知增强） ---------- */
+function congOf(e,fl){const src=fl||IND.flows[state.period];if(!src)return 0;return(src[e.id]||0)/e.cap}
+function route(s,t,o={},fl){
+ const avoid=!!o.avoid,adj={};for(const k in NODES)adj[k]=[];
+ for(const e of EDGES){
+  if(state.closed.has(e.id)||o.ban===e.id)continue;
+  if(o.accMode&&!e.stepFree)continue;
+  adj[e.a].push(e);adj[e.b].push(e);
+ }
+ const d={},pe={};for(const k in NODES)d[k]=Infinity;d[s]=0;
+ const Q=new Set(Object.keys(NODES));
+ while(Q.size){
+  let u=null;for(const k of Q){if(u===null||d[k]<d[u])u=k}
+  if(u===null||d[u]===Infinity)break;Q.delete(u);
+  if(u===t)break;
+  for(const e of adj[u]){const v=e.a===u?e.b:e.a;
+   const c=avoid?e.dist*(1+3.5*Math.pow(clamp(congOf(e,fl),0,1.4),3)):e.dist;
+   if(d[u]+c<d[v]){d[v]=d[u]+c;pe[v]={n:u,e:e}}
+  }
+ }
+ if(d[t]===Infinity)return null;
+ const nodes=[t],edges=[];let cur=t;
+ while(cur!==s){const p=pe[cur];if(!p)return null;edges.unshift(p.e);cur=p.n;nodes.unshift(cur)}
+ const real=edges.reduce((a,e)=>a+e.dist,0);
+ const expSum=edges.reduce((a,e)=>a+e.dist*congOf(e,fl),0);
+ return{nodes:nodes,edges:edges,dist:real,exposure:real?expSum/real:0,minutes:real/75+expSum/100,nonAcc:edges.filter(e=>!e.stepFree).length};
+}
+
+/* ---------- 途经点多站路由：逐段 Dijkstra 链式拼接 ---------- */
+function routeMulti(s,wps,t,o={}){
+ const stops=[s,...wps,t],legs=[];
+ for(let i=0;i<stops.length-1;i++){
+  const r=route(stops[i],stops[i+1],o);
+  if(!r)return{fail:i,from:stops[i],to:stops[i+1],legs:legs};
+  legs.push({from:stops[i],to:stops[i+1],r:r});
+ }
+ const edges=legs.flatMap(l=>l.r.edges);
+ const dist=legs.reduce((a,l)=>a+l.r.dist,0);
+ const expSum=edges.reduce((a,e)=>a+e.dist*congOf(e),0);
+ const nodes=[s];
+ legs.forEach(l=>l.r.nodes.forEach(n=>{if(nodes[nodes.length-1]!==n)nodes.push(n)}));
+ return{legs:legs,nodes:nodes,edges:edges,dist:dist,exposure:dist?expSum/dist:0,
+  minutes:legs.reduce((a,l)=>a+l.r.minutes,0),nonAcc:edges.filter(e=>!e.stepFree).length,stops:stops};
+}
+/* 途经点全排列寻优（≤3 站 = 最多 6 种排列，穷举全局最优） */
+function optimizeWpOrder(s,wps,t,o){
+ const perms=[];(function P(arr,rest){if(!rest.length){perms.push(arr);return}rest.forEach((x,i)=>P([...arr,x],rest.slice(0,i).concat(rest.slice(i+1))))})([],wps);
+ let best=null;
+ for(const p of perms){const m=routeMulti(s,p,t,o);if(!m.fail&&(!best||m.dist<best.m.dist))best={order:p,m:m}}
+ return best;
+}
+
+/* ---------- 客流指标计算（全部时段，含干预 / 激增 / 封闭） ---------- */
+function computeAll(){
+ /* 场景种子：为「时段 × OD」生成有界随机扰动（±15%）。
+    同一图结构 + 同一种子 ⇒ 完全可复现；换种子则产出不同的客流场景。 */
+ const JIT=[];
+ for(let pi=0;pi<PERIODS.length;pi++){
+  const rr=rng(state.seed*7+pi+11),a=[];
+  for(let i=0;i<OD.length;i++)a.push(0.85+0.3*rr());
+  JIT.push(a);
+ }
+ const base=[];
+ for(let pi=0;pi<PERIODS.length;pi++){
+  const per=PERIODS[pi],fl={};EDGES.forEach(e=>fl[e.id]=0);
+  for(let oi=0;oi<OD.length;oi++){
+   const od=OD[oi];
+   const r=route(od[0],od[1],{});if(!r)continue;
+   const vol=od[2]*per.vol*(per.bias[od[1]]||1)*JIT[pi][oi];
+   r.edges.forEach(e=>fl[e.id]+=vol*1.45);
+  }
+  base.push(fl);
+ }
+ IND={flows:[],zone:[]};
+ for(let pi=0;pi<PERIODS.length;pi++){
+  const per=PERIODS[pi],fl={};EDGES.forEach(e=>fl[e.id]=0);
+  const arr={},tra={};for(const k in NODES){arr[k]=0;tra[k]=0}
+  for(let oi=0;oi<OD.length;oi++){
+   const od=OD[oi];
+   const vol=od[2]*per.vol*(per.bias[od[1]]||1)*JIT[pi][oi];if(vol<=0)continue;
+   const r0=route(od[0],od[1],{});
+   let main=r0,mainVol=vol,alt=null,altVol=0;
+   if(r0&&state.intervention&&r0.edges.some(e=>e.id===state.intervention.edge)){
+    alt=route(od[0],od[1],{avoid:true,ban:state.intervention.edge},base[pi]);
+    if(alt){altVol=vol*state.intervention.divert;mainVol=vol-altVol}
+   }
+   if(main){main.edges.forEach(e=>fl[e.id]+=mainVol*1.45);arr[od[1]]+=mainVol;main.nodes.forEach(n=>{if(n!==main.nodes[0])tra[n]+=mainVol})}
+   if(alt){alt.edges.forEach(e=>fl[e.id]+=altVol*1.45);arr[od[1]]+=altVol;alt.nodes.forEach(n=>{if(n!==alt.nodes[0])tra[n]+=altVol})}
+  }
+  if(state.surge)fl[state.surge.edge]=(fl[state.surge.edge]||0)+state.surge.add;
+  IND.flows.push(fl);
+  const r=rng(state.seed*13+pi+1);
+  const zones={};
+  for(const k in NODES){
+   let mx=0;for(const e of EDGES){if(e.a===k||e.b===k)mx=Math.max(mx,(fl[e.id]||0)/e.cap)}
+   zones[k]={footfall:Math.round(arr[k]),transit:Math.round(tra[k]),dwell:+(DWELL[k]*(0.85+0.3*r())).toFixed(1),qp:QCAP[k]?+(arr[k]/QCAP[k]).toFixed(2):null,cong:+Math.min(mx,1.2).toFixed(2)};
+  }
+  IND.zone.push(zones);
+ }
+}
+function genJourneys(){
+ JOURNEYS=[];const r=rng(state.seed);let n=0;
+ for(let pi=0;pi<PERIODS.length;pi++)for(const od of OD){
+  if(n>=40)break;
+  const p=route(od[0],od[1],{});if(!p)continue;
+  JOURNEYS.push({id:'V-'+String(++n).padStart(4,'0'),period:PERIODS[pi].label,entry:od[0],dest:od[1],steps:p.nodes.length-1,dwellMin:+(DWELL[od[1]]*(0.85+0.3*r())).toFixed(1)});
+ }
+}
+
+/* ---------- 视图渲染 ---------- */
+function renderEngine(){
+ const s=$('proStart').value,t=$('proDest').value,nm=k=>NODES[k].name;
+ const multi=state.wps.length>0;
+ const b=multi?routeMulti(s,state.wps,t,{}):route(s,t,{});
+ const enh=multi?routeMulti(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode}):route(s,t,{avoid:state.avoid,accMode:state.accMode});
+ const stopsLine=m=>{if(!multi)return m.nodes.map(nm).join(' → ');
+  let h='';m.stops.forEach((k,i)=>{h+=i===0?nm(k):i===m.stops.length-1?' → '+nm(k):' → <span class="wpbadge">'+String(i).replace('1','①').replace('2','②').replace('3','③')+' '+nm(k)+'</span>'});
+  return h+'<br><span class="leg">各段：'+m.legs.map(l=>l.r.dist+' m').join(' / ')+'</span>'};
+ $('proEnhTitle').textContent='增强 · '+(state.avoid?'拥堵感知':'基线对照')+(state.accMode?' + 无障碍':'')+(multi?' · '+state.wps.length+' 途经点':'');
+ if(!b||b.fail!==undefined){$('proBaseDist').textContent='不可达';$('proBaseInfo').textContent=b&&b.fail!==undefined?'第 '+(b.fail+1)+' 段（'+nm(b.from)+' → '+nm(b.to)+'）无可通行路径':'起点与目的地之间无可通行路径';}
+ else{$('proBaseDist').textContent=b.dist+' m'+(multi?' · '+b.legs.length+' 段':'');$('proBaseInfo').innerHTML='⏱ '+b.minutes.toFixed(1)+' min · 拥堵暴露 '+Math.round(b.exposure*100)+'%<br>'+stopsLine(b);}
+ if(!enh||enh.fail!==undefined){$('proEnhDist').textContent='不可达';$('proEnhInfo').textContent=enh&&enh.fail!==undefined?'第 '+(enh.fail+1)+' 段（'+nm(enh.from)+' → '+nm(enh.to)+'）受封闭或无障碍约束限制':'受封闭通道或无障碍约束限制，当前无可行路线';}
+ else{$('proEnhDist').textContent=enh.dist+' m'+(multi?' · '+enh.legs.length+' 段':'');$('proEnhInfo').innerHTML='⏱ '+enh.minutes.toFixed(1)+' min · 拥堵暴露 '+Math.round(enh.exposure*100)+'% · ♿ 台阶路段 '+enh.nonAcc+' 处<br>'+stopsLine(enh);}
+ const ex=[];
+ if(state.accMode)ex.push('♿ 无障碍模式：已过滤「'+EDGES.filter(e=>!e.stepFree).map(e=>e.name).join('、')+'」等含台阶路段');
+ if(multi){
+  const opt=optimizeWpOrder(s,state.wps,t,{});
+  const cur=enh&&enh.fail===undefined?enh.dist:null;
+  if(opt&&cur!==null&&opt.order.join('>')!==state.wps.join('>'))
+   ex.push('🧭 途经点顺序可优化：当前顺序 '+cur+' m，最优顺序（'+opt.order.map(nm).join(' → ')+'）仅需 '+opt.m.dist+' m，<b>可省 '+(cur-opt.m.dist)+' m</b>（点击「✨ 智能排序」应用）');
+  else if(opt&&cur!==null)ex.push('🧭 途经点顺序已是最优（穷举 '+(state.wps.length<=3?'全部排列':'邻域')+'验证）· 总程 '+cur+' m');
+  ex.push('🧭 多站行程逐段规划：每段独立运行 Dijkstra，基线与增强共用同一代价模型，支持基线对比');
+ }
+ if(state.avoid&&b&&enh&&b.fail===undefined&&enh.fail===undefined){
+  const left=b.edges.filter(x=>!enh.edges.some(y=>y.id===x.id));
+  const add=enh.edges.filter(x=>!b.edges.some(y=>y.id===x.id));
+  left.forEach(x=>{const c=congOf(x);ex.push('⚡ 避开「'+x.name+'」：当前时段拥堵 '+Math.round(c*100)+'%'+(c>0.75?'（超 75% 阈值）':''))});
+  add.forEach(x=>ex.push('↪ 改经「'+x.name+'」：拥堵 '+Math.round(congOf(x)*100)+'%，通行更稳定'));
+  if(b&&enh&&left.length&&add.length){
+   const dT=enh.minutes-b.minutes,dE=b.exposure-enh.exposure,dD=enh.dist-b.dist;
+   const worth=dE>0.25&&dT<=0.6;
+   ex.push((worth?'✅ 建议绕行':'⚖️ 权衡提示')+'：距离 +'+dD+' m，用时 '+(dT>=0?'+':'')+dT.toFixed(1)+' min，拥堵暴露 −'+Math.round(dE*100)+' pp。'
+    +(worth?'以较小的时间代价换取大幅降低的拥挤暴露，适合轮椅/婴儿车/结伴出行。'
+      :'绕行走廊更长，属于「舒适度优先」而非「速度优先」；追求最快到达请切回基线最短路径，运营侧更宜改用导向分流而非让访客绕远。'));
+  }
+  if(!left.length&&!add.length)ex.push('✓ 当前基线路径已是拥堵最优，无需改道');
+ }else if(!state.avoid)ex.push('当前为基线对照模式：最短路径（用于与增强方法对比的 baseline）');
+ if(b&&enh&&b.fail===undefined&&enh.fail===undefined)ex.push('📊 对比：距离 '+b.dist+' → '+enh.dist+' m（'+(enh.dist-b.dist>=0?'+':'')+(enh.dist-b.dist)+' m），拥堵暴露 '+Math.round(b.exposure*100)+'% → '+Math.round(enh.exposure*100)+'%，用时 '+b.minutes.toFixed(1)+' → '+enh.minutes.toFixed(1)+' min');
+ ex.push('🔗 分区标识与 01/02 导航面板、管理端仪表盘共享同一图数据模型（entrance / atrium / lift / fashion / hero / toilet / cafe / exit）');
+ $('proExplain').innerHTML=ex.map(x=>'<li>'+x+'</li>').join('');
+ renderWpUI();
+}
+
+/* ---------- 途经点 UI：chips / 行程链 / 顺路推荐 / 迷你地图 ---------- */
+const WPIcons={hero:'🎯',toilet:'🚻',cafe:'☕',lift:'🛗',fashion:'👔',atrium:'🏛',exit:'🚪',entrance:'🚶'};
+function renderWpUI(){
+ const s=$('proStart').value,t=$('proDest').value,nm=k=>NODES[k].name;
+ const excl=new Set([s,t,...state.wps]);
+ $('proWpChips').innerHTML=Object.keys(NODES).filter(k=>!excl.has(k)).map(k=>
+  '<button class="wpchip" data-wp="'+k+'" '+(state.wps.length>=3?'disabled ':'')+'>'+(WPIcons[k]||'📍')+' '+nm(k)+'</button>').join('')
+  +(state.wps.length>=3?'<span class="sub" style="font-size:10px;align-self:center">已达 3 站上限</span>':'');
+ const el=$('proWpOrder');
+ if(!state.wps.length){el.innerHTML='未选择途经点 · 当前为直达行程<span class="leg">　提示：加入洗手间/咖啡店等即可规划多站行程，顺路推荐见下方</span>';}
+ else{
+  const m=routeMulti(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+  const opt=optimizeWpOrder(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+  let h='行程链：'+nm(s);
+  state.wps.forEach((k,i)=>{h+=' <span class="wpbadge">'+String(i+1).replace('1','①').replace('2','②').replace('3','③')+' '+(WPIcons[k]||'')+' '+nm(k)+'</span> '+(m.legs&&m.legs[i]?m.legs[i].r.dist+' m':'—')});
+  h+=' → '+nm(t)+(m&&m.legs&&m.dist?'<br><span class="leg">总程 '+m.dist+' m · ⏱ '+m.minutes.toFixed(1)+' min · 途经 '+state.wps.length+' 站</span>':'');
+  if(opt&&m&&m.legs&&opt.order.join('>')!==state.wps.join('>'))h+='<br><span style="color:#ffc86c">↕ 当前非最优顺序 · 最优可省 '+(m.dist-opt.m.dist)+' m</span>';
+  else if(opt&&m&&m.legs)h+='<br><span style="color:var(--green)">✓ 已是最优到访顺序</span>';
+  el.innerHTML=h;
+ }
+ renderWpSug();
+ drawWpMap();
+}
+function renderWpSug(){
+ const s=$('proStart').value,t=$('proDest').value,nm=k=>NODES[k].name;
+ const box=$('proWpSug');
+ if(state.wps.length>=3){box.innerHTML='<h4 style="margin:8px 0 0">🛎 顺路推荐</h4><p class="sub" style="margin-top:4px">已达 3 站上限，先清空或完成当前行程。</p>';return}
+ const cur=routeMulti(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+ if(!cur||cur.fail!==undefined){box.innerHTML='';return}
+ const candis=Object.keys(NODES).filter(k=>![s,t,...state.wps].includes(k)&&['toilet','cafe','lift','fashion','hero'].includes(k)&&NODES[k].type!=='junction');
+ const TH=Math.max(90,Math.round(cur.dist));
+ const items=[];
+ for(const c of candis){
+  let bestPos=-1,bestD=Infinity;
+  for(let p=0;p<=state.wps.length;p++){
+   const w2=[...state.wps];w2.splice(p,0,c);
+   const m=routeMulti(s,w2,t,{avoid:state.avoid,accMode:state.accMode});
+   if(m&&m.fail===undefined&&m.dist<bestD){bestD=m.dist;bestPos=p}
+  }
+  if(bestPos<0||bestD-cur.dist>TH)continue;
+  const z=IND.zone[state.period][c]||{};
+  items.push({c:c,pos:bestPos,add:bestD-cur.dist,dm:((bestD-cur.dist)/75+(bestD-cur.dist)*cur.exposure/100),
+   qp:z.qp,dwell:DWELL[c],cong:z.cong});
+ }
+ items.sort((a,b)=>a.add-b.add);
+ box.innerHTML=items.length?'<h4 style="margin:8px 0 6px">🛎 顺路推荐（绕行 ≤'+TH+' m 的兴趣点 · 按额外代价排序）</h4>'+
+  items.slice(0,3).map(it=>'<div class="wpsug-item"><div><b>'+(WPIcons[it.c]||'📍')+' '+nm(it.c)+'</b><span class="sub">　绕行 +'+it.add+' m · 约 +'+it.dm.toFixed(1)+' min'+(it.qp?' · 当前排队压力 '+Math.round(it.qp*100)+'%':'')+' · 平均驻留 '+it.dwell+' min</span></div><button class="smallbtn primary" data-addwp="'+it.c+'" data-pos="'+it.pos+'">＋ 加为一站</button></div>').join(''):
+  '<h4 style="margin:8px 0 6px">🛎 顺路推荐</h4><p class="sub" style="margin-top:2px">当前行程附近暂无低代价顺路点（所有兴趣点绕行均超过 '+TH+' m）。</p>';
+}
+function drawWpMap(){
+ const cv=$('proWpMap');if(!cv)return;
+ const r=cv.getBoundingClientRect();if(!r.width)return;
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
+ const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
+ const W=r.width,H=r.height;
+ g.fillStyle='#04101a';g.fillRect(0,0,W,H);
+ const P=k=>w2c(NODES[k].x,NODES[k].z,W,H);
+ /* 底图：全部通道按拥堵着色 */
+ for(const e of EDGES){
+  const a=P(e.a),b2=P(e.b);
+  g.strokeStyle=state.closed.has(e.id)?'#5a6a75':congColor(congOf(e));
+  g.lineWidth=state.closed.has(e.id)?1.5:4;
+  g.globalAlpha=state.closed.has(e.id)?0.55:0.8;
+  g.beginPath();g.moveTo(a[0],a[1]);g.lineTo(b2[0],b2[1]);g.stroke();
+ }
+ g.globalAlpha=1;
+ /* 行程路径（增强） */
+ const s=$('proStart').value,t=$('proDest').value;
+ const m=routeMulti(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+ if(m&&m.fail===undefined&&m.nodes.length>1){
+  g.strokeStyle='#55f3ff';g.lineWidth=3.5;g.lineCap='round';g.lineJoin='round';
+  g.shadowColor='#55f3ff';g.shadowBlur=8;
+  g.beginPath();m.nodes.forEach((n,i)=>{const p=P(n);i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])});g.stroke();
+  g.shadowBlur=0;
+ }
+ /* 站点标记：起点绿 / 途经点青 / 目的地红 */
+ const mark=(k,label,color)=>{const p=P(k);
+  g.fillStyle=color;g.strokeStyle='#04101a';g.lineWidth=2;
+  g.beginPath();g.arc(p[0],p[1],11,0,7);g.fill();g.stroke();
+  g.fillStyle='#eaf6ff';g.font='700 11px system-ui';g.textAlign='center';g.textBaseline='middle';
+  g.fillText(label,p[0],p[1]+0.5);
+  g.fillStyle='#9fb6c4';g.font='10px system-ui';
+  g.fillText(NODES[k].name,p[0],p[1]+21)};
+ mark(s,'起','#2aa57a');
+ state.wps.forEach((k,i)=>mark(k,String(i+1),'#55f3ff'));
+ mark(t,'终','#e24b4a');
+}
+function renderKpis(){
+ const pi=state.period,z=IND.zone[pi];
+ const poiList=['hero','cafe','fashion','toilet','lift'];
+ const totalArr=poiList.reduce((a,k)=>a+z[k].footfall,0);
+ const wsum=poiList.reduce((a,k)=>a+z[k].footfall*z[k].dwell,0),wv=poiList.reduce((a,k)=>a+z[k].footfall,0);
+ const avgDwell=wv?wsum/wv:0;
+ const worst=EDGES.map(e=>({e:e,c:(IND.flows[pi][e.id]||0)/e.cap})).sort((a,b)=>b.c-a.c)[0];
+ const low=poiList.reduce((a,k)=>z[k].footfall<z[a].footfall?k:a,poiList[0]);
+ const maxQp=poiList.reduce((a,k)=>Math.max(a,z[k].qp||0),0);
+ const cls=(c,th1,th2)=>c>th1?'bad':c>th2?'warn':'good';
+ const kpis=[
+  {v:totalArr+' 人/h',l:'当前时段到访客流',c:''},
+  {v:avgDwell.toFixed(1)+' min',l:'加权平均驻留时长',c:''},
+  {v:Math.round(worst.c*100)+'%',l:'瓶颈通道 · '+worst.e.name,c:cls(worst.c,.75,.5)},
+  {v:z[low].footfall+' 人/h',l:'最低到访 · '+NODES[low].name,c:'warn'},
+  {v:Math.round(maxQp*100)+'%',l:'排队压力峰值（洗手间/咖啡/电梯）',c:cls(maxQp,.9,.7)}
+ ];
+ $('proKpis').innerHTML=kpis.map(k=>'<div class="kpi '+(k.c||'')+'"><b>'+k.v+'</b><span>'+k.l+'</span></div>').join('');
+}
+function renderZoneTable(){
+ const pi=state.period,z=IND.zone[pi];
+ let h='<tr><th>分区</th><th>类型</th><th>到访 人/h</th><th>转移 次/h</th><th>驻留 min</th><th>排队压力</th><th>拥堵</th><th>状态</th></tr>';
+ for(const k in NODES){
+  const v=z[k];
+  let badge='<span class="badge ok">正常</span>';
+  if(v.cong>0.75)badge='<span class="badge bad">拥堵</span>';
+  else if(v.cong>0.5)badge='<span class="badge warn">繁忙</span>';
+  else if(v.footfall===0&&NODES[k].type!=='junction'&&NODES[k].type!=='entrance'&&NODES[k].type!=='exit')badge='<span class="badge bad">客流中断</span>';
+  h+='<tr><td>'+NODES[k].name+'</td><td>'+TYPELAB[NODES[k].type]+'</td><td>'+v.footfall+'</td><td>'+v.transit+'</td><td>'+v.dwell+'</td><td>'+(v.qp!=null?Math.round(v.qp*100)+'%':'—')+'</td><td>'+Math.round(v.cong*100)+'%</td><td>'+badge+'</td></tr>';
+ }
+ $('proZoneTable').innerHTML=h;
+}
+function renderAlerts(){
+ const pi=state.period,al=[];
+ for(const e of EDGES){
+  if(state.closed.has(e.id)){al.push('<div class="alert-item">⛔ <b>临时封闭</b>：「'+e.name+'」— 引擎已自动绕行，热力图同步标灰</div>');continue}
+  const c=(IND.flows[pi][e.id]||0)/e.cap;
+  if(c>0.75)al.push('<div class="alert-item">⚠ <b>瓶颈预警</b>：「'+e.name+'」拥堵 '+Math.round(c*100)+'%，建议启用地面临时导流或默认开启拥堵感知导航</div>');
+ }
+ for(const k in QCAP){const q=IND.zone[pi][k].qp;if(q>0.9)al.push('<div class="alert-item">🕐 <b>排队压力</b>：「'+NODES[k].name+'」'+Math.round(q*100)+'%，接近服务容量上限</div>')}
+ if(state.surge)al.push('<div class="alert-item">🔥 <b>激增注入生效</b>：「'+EDGES.find(e=>e.id===state.surge.edge).name+'」+ '+state.surge.add+' 人/h（模拟事件）</div>');
+ if(state.intervention)al.push('<div class="alert-item">✅ <b>干预生效</b>：「'+EDGES.find(e=>e.id===state.intervention.edge).name+'」已分流 '+Math.round(state.intervention.divert*100)+'% 客流</div>');
+ if(!al.length)al.push('<div class="alert-item">✓ 当前时段无瓶颈 / 封闭 / 排队预警</div>');
+ $('proAlerts').innerHTML=al.join('');
+}
+function renderPredict(){
+ const nx=(state.period+1)%PERIODS.length;let best=null;
+ for(const e of EDGES){
+  const c1=(IND.flows[state.period][e.id]||0)/e.cap,c2=(IND.flows[nx][e.id]||0)/e.cap;
+  if(!best||c2-c1>best.d)best={e:e,c1:c1,c2:c2,d:c2-c1};
+ }
+ if(best&&best.c2>0.75&&best.d>0.03)$('proPredict').innerHTML='预测「'+PERIODS[nx].label+'」：「'+best.e.name+'」拥堵将升至 <b>'+Math.round(best.c2*100)+'%</b>（当前 '+Math.round(best.c1*100)+'%）。建议提前部署导流，或对该 OD 组合默认启用拥堵感知导航。<br><span class="sub">基于模拟流推算，需实地匿名计数验证。</span>';
+ else $('proPredict').innerHTML='下一时段（'+PERIODS[nx].label+'）预计无新增瓶颈。<span class="sub">基于模拟流推算。</span>';
+}
+function renderInterv(){
+ const box=$('proInterv'),pi=state.period;
+ if(state.intervention){
+  const e=EDGES.find(x=>x.id===state.intervention.edge);
+  const after=(IND.flows[pi][e.id]||0)/e.cap;
+  let extra=after>0.75?'<br><span style="color:#ffc86c">残余拥堵仍偏高，建议叠加现场人工导流。</span>':'';
+  box.innerHTML='<p style="font-size:12.5px;line-height:1.7">✅ <b>干预方案</b>：将「'+e.name+'」'+Math.round(state.intervention.divert*100)+'% 客流经拥堵感知替代通道导流。<br>拥堵指数 <b>'+Math.round(interBefore*100)+'% → '+Math.round(after*100)+'%</b>（模拟推算，实地效果需匿名计数验证）。'+extra+'</p><div class="hbar"><button class="smallbtn" id="proUndoInt">↺ 撤销干预</button></div>';
+  $('proUndoInt').onclick=()=>{state.intervention=null;interBefore=null;recalcAll()};
+ }else{
+  const cands=EDGES.filter(e=>!state.closed.has(e.id)&&['hero','cafe','fashion'].some(t=>route('entrance',t,{avoid:true,ban:e.id}))).map(e=>({e:e,c:(IND.flows[pi][e.id]||0)/e.cap})).sort((a,b)=>b.c-a.c);
+  const top=cands[0];
+  box.innerHTML=cands.length
+   ?'<p style="font-size:12.5px;line-height:1.7">当前最拥堵通道：「<b>'+top.e.name+'</b>」'+Math.round(top.c*100)+'%'+(top.c>0.6?' — 可生成导流方案':' — 低于干预阈值 60%')+'</p><div class="hbar"><button class="smallbtn primary" id="proGenInt" '+(top.c>0.6?'':'disabled ')+'>生成干预建议</button></div>'
+   :'<p style="font-size:12.5px;line-height:1.7">当前客流分布均衡：所有通道均存在可行替代路径且拥堵指数低于 60%，<b>暂无需干预</b>。切换至高峰时段或注入拥堵激增量后，此处将自动生成导流方案。</p>';
+  if(cands.length&&top.c>0.6)$('proGenInt').onclick=()=>{interBefore=top.c;state.intervention={edge:top.e.id,divert:0.35};recalcAll()};
+ }
+}
+function renderDash(){
+ $('proDashPeriod').textContent=PERIODS[state.period].label;
+ renderKpis();renderZoneTable();renderAlerts();renderPredict();renderInterv();
+}
+
+/* ---------- 热力图（Canvas 2D + 数字孪生粒子流） ---------- */
+const hc=$('proHeat'),hctx=hc.getContext('2d');
+let particles=[],heatVisible=false;
+function heatResize(){const r=hc.getBoundingClientRect();if(!r.width)return;const dpr=Math.min(window.devicePixelRatio||1,2);hc.width=Math.round(r.width*dpr);hc.height=Math.round(r.height*dpr);hctx.setTransform(dpr,0,0,dpr,0,0)}
+function rebuildParticles(){
+ particles=[];const fl=IND.flows[state.period];
+ for(const e of EDGES){
+  if(state.closed.has(e.id))continue;
+  const n=Math.min(9,Math.round((fl[e.id]||0)/240));
+  for(let i=0;i<n;i++)particles.push({id:e.id,t:Math.random(),sp:0.1+0.2*Math.random(),dir:Math.random()<0.5?1:-1});
+ }
+}
+function w2c(x,z,w,h){const s=Math.min(w/17.5,h/18.6);return[(x+8.75)*s,(z+8.7)*s]}
+function congColor(c){return'hsl('+Math.round(clamp(150*(1-c),0,150))+',72%,46%)'}
+function rr(x,y,w2,h2,r){hctx.beginPath();hctx.moveTo(x+r,y);hctx.arcTo(x+w2,y,x+w2,y+h2,r);hctx.arcTo(x+w2,y+h2,x,y+h2,r);hctx.arcTo(x,y+h2,x,y,r);hctx.arcTo(x,y,x+w2,y,r);hctx.closePath()}
+function drawHeat(){
+ const w=hc.clientWidth,h=hc.clientHeight;if(!w||!h)return;
+ const g=hctx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#0b1b29');g.addColorStop(1,'#03080e');
+ hctx.fillStyle=g;hctx.fillRect(0,0,w,h);
+ const z=IND.zone[state.period];
+ for(const e of EDGES){
+  const A=w2c(NODES[e.a].x,NODES[e.a].z,w,h),B=w2c(NODES[e.b].x,NODES[e.b].z,w,h);
+  if(state.closed.has(e.id)){
+   hctx.beginPath();hctx.setLineDash([7,6]);hctx.moveTo(A[0],A[1]);hctx.lineTo(B[0],B[1]);hctx.strokeStyle='#5a6a75';hctx.lineWidth=6;hctx.stroke();hctx.setLineDash([]);
+   hctx.fillStyle='#ff586c';hctx.font='bold 13px system-ui';hctx.textAlign='center';hctx.fillText('✕',(A[0]+B[0])/2,(A[1]+B[1])/2+4);
+  }else{
+   const c=congOf(e);
+   hctx.beginPath();hctx.moveTo(A[0],A[1]);hctx.lineTo(B[0],B[1]);hctx.strokeStyle=congColor(c);hctx.globalAlpha=.28;hctx.lineWidth=14;hctx.stroke();hctx.globalAlpha=1;hctx.lineWidth=7;hctx.stroke();
+  }
+ }
+ for(const p of particles){
+  const e=EDGES.find(x=>x.id===p.id);if(!e)continue;
+  const A=w2c(NODES[e.a].x,NODES[e.a].z,w,h),B=w2c(NODES[e.b].x,NODES[e.b].z,w,h);
+  const t=p.dir>0?p.t:1-p.t;
+  hctx.beginPath();hctx.arc(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,2.1,0,Math.PI*2);hctx.fillStyle='#d9f7ff';hctx.globalAlpha=.85;hctx.fill();hctx.globalAlpha=1;
+ }
+ for(const k in NODES){
+  const n=NODES[k],[cx,cy]=w2c(n.x,n.z,w,h),c=z[k].cong;
+  hctx.fillStyle=congColor(c);hctx.globalAlpha=.32;rr(cx-33,cy-20,66,40,9);hctx.fill();hctx.globalAlpha=1;
+  hctx.strokeStyle='#326176';hctx.lineWidth=1;hctx.stroke();
+  hctx.fillStyle='#eafaff';hctx.font='10.5px system-ui';hctx.textAlign='center';hctx.fillText(n.name,cx,cy-4);
+  hctx.fillStyle='#8ba3b8';hctx.font='9.5px system-ui';hctx.fillText(z[k].footfall+' 人/h',cx,cy+10);
+ }
+ hctx.fillStyle='#8ba3b8';hctx.font='9.5px system-ui';hctx.textAlign='left';hctx.fillText('HEATMAP · '+PERIODS[state.period].label+' · SIMULATED FLOW',10,h-10);
+}
+let lastT=0;
+function tick(ts){
+ const dt=Math.min((ts-lastT)/1000||.016,.05);lastT=ts;
+ if(heatVisible){
+  drawHeat();
+  for(const p of particles){p.t+=p.sp*dt*3*p.dir;if(p.t>1)p.t=0;if(p.t<0)p.t=1}
+ }
+ requestAnimationFrame(tick);
+}
+
+/* ---------- 测试中心 ---------- */
+const TESTS=[
+ {n:'T1 基线最短路径正确性',c:'功能',f(){const r=route('entrance','lift',{});return r&&r.dist===130&&r.nodes.join('>')==='entrance>atrium>lift'?{p:1,d:'主入口→中庭→电梯厅 130 m ✓'}:{p:0,d:'路径结果异常'}}},
+ {n:'T2 拥堵感知优于基线（晚高峰 hero OD）',c:'优化',f(){state.period=3;const b=route('entrance','hero',{}),e2=route('entrance','hero',{avoid:true});return b&&e2&&e2.exposure<b.exposure*0.95?{p:1,d:'拥堵暴露 '+Math.round(b.exposure*100)+'% → '+Math.round(e2.exposure*100)+'%，距离 +'+(e2.dist-b.dist)+' m ✓'}:{p:0,d:'增强策略未降低拥堵暴露'}}},
+ {n:'T3 临时封闭自动重路由',c:'边界',f(){state.closed.add('e5');const r=route('entrance','hero',{});return r&&!r.edges.some(x=>x.id==='e5')?{p:1,d:'绕开封闭的中庭北通道，改道 '+r.dist+' m ✓'}:{p:0,d:'重路由失败'}}},
+ {n:'T4 断连通路径检测（不可达）',c:'边界',f(){state.closed.add('e1');state.closed.add('e2');const r=route('entrance','hero',{});return r===null?{p:1,d:'主入口通道全部封闭 → 正确报告不可达 ✓'}:{p:0,d:'未检测到断连通'}}},
+ {n:'T5 无障碍模式规避台阶',c:'无障碍',f(){const r=route('lift','fashion',{accMode:true});return r&&!r.edges.some(x=>!x.stepFree)?{p:1,d:'轮椅可达：'+r.nodes.map(k=>NODES[k].name).join('→')+'，全程无台阶 ✓'}:{p:0,d:'无障碍过滤失效'}}},
+ {n:'T6 拥堵激增动态响应',c:'边界',f(){state.surge={edge:'e9',add:750};computeAll();const r=route('entrance','hero',{avoid:true});return r&&!r.edges.some(x=>x.id==='e9')?{p:1,d:'连廊B激增后自动改道 ✓'}:{p:0,d:'未响应激增'}}},
+ {n:'T7 数据可复现（同种子同结果）',c:'可复现',f(){const a=JSON.stringify(IND.flows);computeAll();const b2=JSON.stringify(IND.flows);return a===b2?{p:1,d:'两次全量计算结果完全一致 ✓'}:{p:0,d:'结果不可复现'}}},
+ {n:'T8 隐私结构检查（字段白名单）',c:'隐私',f(){const W=['id','period','entry','dest','steps','dwellMin'];const ok=JOURNEYS.length>=30&&JOURNEYS.every(j=>Object.keys(j).every(k=>W.includes(k)));return ok?{p:1,d:JOURNEYS.length+' 条记录均为匿名聚合字段，无姓名/设备/影像字段 ✓'}:{p:0,d:'记录含非白名单字段'}}},
+ {n:'T9 路由性能（400 次 Dijkstra）',c:'性能',f(){const t0=performance.now();for(let i=0;i<400;i++)route('entrance','hero',{avoid:true});const dt=performance.now()-t0;return dt<300?{p:1,d:'400 次拥堵感知路由 '+dt.toFixed(0)+' ms ✓'}:{p:0,d:'耗时 '+dt.toFixed(0)+' ms 超限'}}},
+ {n:'T10 途经点多站路由（逐段拼接）',c:'功能',f(){state.wps=['toilet','cafe'];const m=routeMulti('entrance',state.wps,'hero',{});const ok=m&&m.fail===undefined&&m.legs.length===3&&m.dist===240&&m.legs[0].r.dist===130&&m.legs[1].r.dist===50&&m.legs[2].r.dist===60;return ok?{p:1,d:'主入口→洗手间→咖啡店→HERO DOME：130+50+60 = '+m.dist+' m，逐段拼接正确 ✓'}:{p:0,d:'多站路由结果异常'}}},
+ {n:'T11 途经点智能排序（穷举最优）',c:'优化',f(){state.wps=['cafe','toilet'];const cur=routeMulti('entrance',state.wps,'hero',{});const opt=optimizeWpOrder('entrance',state.wps,'hero',{});return cur&&opt&&opt.m.dist<cur.dist?{p:1,d:'乱序 340 m → 最优 '+opt.m.dist+' m（洗手间 → 咖啡店），节省 '+(cur.dist-opt.m.dist)+' m ✓'}:{p:0,d:'排序未找到更优解'}}},
+ {n:'T12 双角色界面渲染（访客端 / 管理驾驶舱）',c:'功能',f(){
+  setPersona('eng');
+  const cards=$('custPois').children.length,routeTxt=($('custRoute').textContent||'').trim();
+  setPersona('mgr');
+  const kpis=$('mgrKpis').children.length,alerts=$('mgrAlerts').children.length,mapW=$('mgrMap').width;
+  setPersona('cust');
+  const okP=cards>=5&&routeTxt.length>10&&kpis>=5&&mapW>300;
+  return okP?{p:1,d:'访客端 '+cards+' 目的地卡 / 管理端 '+kpis+' KPI + '+alerts+' 预警 / 热力 '+mapW+'px ✓'}:{p:0,d:'渲染不完整 cards='+cards+' kpis='+kpis+' map='+mapW}}}
+];
+function runTests(){
+ const snap={period:state.period,closed:new Set(state.closed),surge:state.surge,inter:state.intervention,ib:interBefore,wps:[...state.wps]};
+ let passN=0;
+ const rows=TESTS.map(t=>{
+  let r;try{r=t.f()}catch(err){r={p:0,d:'异常：'+err.message}}
+  state.period=snap.period;state.closed=new Set(snap.closed);state.surge=snap.surge;state.intervention=snap.inter;interBefore=snap.ib;state.wps=[...snap.wps];
+  computeAll();rebuildParticles();renderEngine();renderDash();
+  if(r.p)passN++;
+  return'<div class="testrow"><div><b>'+t.n+'</b><div class="sub" style="margin-top:2px">'+t.c+' · '+r.d+'</div></div><span class="'+(r.p?'pass':'fail')+'">'+(r.p?'PASS':'FAIL')+'</span></div>';
+ });
+ $('proTests').innerHTML=rows.join('');
+ const chip=$('proSelfCheck');chip.textContent='系统自检 '+passN+'/'+TESTS.length+' PASS';chip.style.color=passN===TESTS.length?'var(--green)':'var(--red)';chip.style.borderColor=passN===TESTS.length?'#255544':'#5c2430';
+ return passN;
+}
+
+/* ---------- 端到端演示（访客路线 + 管理决策，含封闭处理与解释） ---------- */
+const DEMO=[
+ {t:'STEP 1 · 访客情景启动',d:'访客「V-1024」在晚高峰从主入口进入正大广场，想去 HERO DOME 打卡。系统基于统一图数据模型计算基线最短路径：主入口 → 中庭 → HERO DOME（120 m）。切到「路径引擎」页可看到基线卡。',act(){demoResetState(false);state.avoid=false;recalcAll();showTab('engine')}},
+ {t:'STEP 2 · 途经点多站行程',d:'访客计划先去洗手间、再去咖啡店，最后到 HERO DOME。系统逐段规划：主入口 → 洗手间 → 咖啡店 → HERO DOME（130 + 50 + 60 = 240 m）。若顺序不佳，「✨ 智能排序」会穷举全部排列给出最短总程；下方「顺路推荐」提示绕行 ≤90 m 的兴趣点。点击「⇄ 同步到 01 导航面板」可把多站步骤写入上方 04 导航步骤面板。',act(){state.wps=['toilet','cafe'];state.avoid=true;recalcAll();showTab('engine')}},
+ {t:'STEP 3 · 途中突发封闭',d:'中庭北通道因商户施工临时封闭（⛔ e5）。引擎实时移除该边并逐段重新校验连通性——多站行程受影响时自动逐段重路由，热力图同步标灰打 ✕，仪表盘出现封闭预警。',act(){state.closed.add('e5');recalcAll();showTab('heat')}},
+ {t:'STEP 4 · 可解释重路由',d:'系统切换到拥堵感知模式并给出逐条解释：避开封闭段，改经 东侧通道 → 北侧连廊B，代价与收益全部量化（见路径引擎页解释列表）。',act(){state.avoid=true;recalcAll();showTab('engine')}},
+ {t:'STEP 5 · 拥堵叠加动态改道',d:'大量访客同时绕行导致北侧连廊B（东侧）出现激增（+750 人/h）。引擎检测到新拥堵后再次改道北侧连廊A（西侧）——路由随客流状态实时演化。',act(){state.surge={edge:'e9',add:750};recalcAll();showTab('engine')}},
+ {t:'STEP 6 · 管理者情景',d:'值班经理打开运营仪表盘：瓶颈通道、排队压力、最低到访分区、预测性预警一目了然。注意：所有指标与访客端导航来自同一份图数据与客流记录（一致分区标识）。',act(){showTab('dash')}},
+ {t:'STEP 7 · 干预决策（可解释干预）',d:'针对当前最拥堵通道生成导流方案：将 35% 客流经替代通道分流。应用后拥堵指数显著回落；系统同时标注「基于模拟流推算，需实地匿名计数验证」——不过度声称。',act(){applyIntervention();showTab('dash')}},
+ {t:'STEP 8 · 复盘与系统边界',d:'本演示完整回溯了一条访客路线（途经点多站 → 封闭 → 重路由 → 激增改道）与一个管理决策（预警 → 干预 → 前后对比）。全部客流为模拟数据，不构成真实行为证明；生产部署需实采匿名计数、基础设施集成与数据治理（见「数据治理」页）。',act(){showTab('gov')}}
+];
+let demoIdx=0,demoTimer=null;
+function demoResetState(recalc){state.period=3;state.closed=new Set();state.surge=null;state.intervention=null;interBefore=null;state.avoid=true;state.accMode=false;state.wps=[];$('proAvoid').classList.add('active');$('proAcc').classList.remove('active');updatePeriodUI();if(recalc!==false)recalcAll()}
+function applyIntervention(){
+ const pi=state.period;
+ const cands=EDGES.filter(e=>!state.closed.has(e.id)&&['hero','cafe','fashion'].some(t=>route('entrance',t,{avoid:true,ban:e.id}))).map(e=>({e:e,c:(IND.flows[pi][e.id]||0)/e.cap})).sort((a,b)=>b.c-a.c);
+ if(!cands.length)return;
+ interBefore=cands[0].c;state.intervention={edge:cands[0].e.id,divert:0.35};recalcAll();
+}
+function renderDemo(){
+ const st=DEMO[demoIdx];
+ $('proDemoCard').innerHTML='<h3>'+st.t+'</h3><p class="sub" style="font-size:12.5px;line-height:1.8">'+st.d+'</p>';
+ $('proDemoCount').textContent=(demoIdx+1)+' / '+DEMO.length;
+}
+function demoGo(i){demoIdx=clamp(i,0,DEMO.length-1);renderDemo();DEMO[demoIdx].act()}
+function demoStop(){if(demoTimer){clearInterval(demoTimer);demoTimer=null;$('proDemoAuto').textContent='▶ 自动播放'}}
+
+/* ---------- 标签页 / 事件 ---------- */
+function showTab(name){
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+ document.querySelectorAll('.tabbody').forEach(b=>b.classList.toggle('active',b.id==='tab-'+name));
+ heatVisible=(name==='heat');
+ if(heatVisible){heatResize();drawHeat()}
+ if(name==='dash')renderDash();
+ if(name==='engine')renderEngine();
+}
+function updatePeriodUI(){$('proPeriod').value=state.period;$('proPeriodLabel').textContent=PERIODS[state.period].label}
+function recalcAll(){computeAll();rebuildParticles();renderEngine();renderDash();if(heatVisible)drawHeat()}
+
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+$('proAvoid').onclick=()=>{state.avoid=!state.avoid;$('proAvoid').classList.toggle('active',state.avoid);renderEngine()};
+$('proAcc').onclick=()=>{state.accMode=!state.accMode;$('proAcc').classList.toggle('active',state.accMode);renderEngine()};
+$('proStart').onchange=()=>{const v=$('proStart').value;state.wps=state.wps.filter(k=>k!==v);renderEngine()};
+$('proDest').onchange=()=>{const v=$('proDest').value;state.wps=state.wps.filter(k=>k!==v);renderEngine()};
+/* ---------- 途经点交互 ---------- */
+$('proWpChips').addEventListener('click',e=>{
+ const b=e.target.closest('.wpchip');if(!b||b.disabled)return;
+ const k=b.dataset.wp;
+ if(!state.wps.includes(k)){if(state.wps.length>=3){alert('最多支持 3 个途经点');return}state.wps.push(k)}
+ renderEngine();
+});
+$('proWpSug').addEventListener('click',e=>{
+ const b=e.target.closest('[data-addwp]');if(!b)return;
+ const k=b.dataset.addwp,pos=+b.dataset.pos;
+ if(state.wps.length>=3||state.wps.includes(k))return;
+ state.wps.splice(Math.min(pos,state.wps.length),0,k);
+ renderEngine();
+});
+$('proWpOptimize').onclick=()=>{
+ const s=$('proStart').value,t=$('proDest').value;
+ if(!state.wps.length){alert('请先选择途经点');return}
+ const opt=optimizeWpOrder(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+ if(!opt){alert('当前约束下无可行排序（存在不可达段）');return}
+ const before=routeMulti(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+ state.wps=opt.order;
+ renderEngine();
+ const saved=before&&before.legs?before.dist-opt.m.dist:0;
+ $('proRegenNote').textContent='✨ 途经点已重排为最优顺序'+(saved>0?' · 节省 '+saved+' m':'（原顺序已最优）');
+ setTimeout(()=>{$('proRegenNote').textContent=''},4000);
+};
+$('proWpClear').onclick=()=>{state.wps=[];renderEngine()};
+$('proSync').onclick=()=>{
+ const s=$('proStart').value,t=$('proDest').value;
+ $('start').value=['entrance','atrium','lift','fashion'].includes(s)?s:'entrance';
+ $('dest').value=['hero','toilet','cafe','lift','exit'].includes(t)?t:'hero';
+ if(state.wps.length){
+  /* 多站行程：同步总程与逐站步骤到 01/02/04 面板（不改原代码，仅按原面板标记结构渲染） */
+  const m=routeMulti(s,state.wps,t,{avoid:state.avoid,accMode:state.accMode});
+  const nm=k=>NODES[k].name;
+  if(m&&m.fail===undefined){
+   $('hudDest').textContent=state.wps.map(nm).join(' → ')+' → '+nm(t);
+   $('meters').textContent=m.dist+' m';$('minutes').textContent=Math.max(1,Math.round(m.minutes))+' min';
+   $('turns').textContent=m.legs.reduce((a,l)=>a+l.r.nodes.length,0);
+   $('distance').textContent=m.dist+' m';
+   $('routeStatus').textContent='MULTI-STOP';
+   $('instruction').textContent='多站行程 · 前往第 1 站：'+nm(state.wps[0]);
+   const labels={entrance:'主入口',atrium:'中央中庭',lift:'电梯厅',fashion:'时尚区',hero:'HERO DOME',toilet:'洗手间',cafe:'咖啡店',exit:'出口'};
+   const steps=[{title:'从'+(labels[s]||nm(s))+'出发',desc:'共 '+(state.wps.length+1)+' 站 · 总程 '+m.dist+' m · 预计 '+m.minutes.toFixed(1)+' min'}];
+   state.wps.forEach((k,i)=>{
+    steps.push({title:'途经 '+(i+1)+' · '+nm(k),desc:'本段 '+m.legs[i].r.dist+' m · 路径：'+m.legs[i].r.nodes.map(nm).join(' → ')+(DWELL[k]?' · 建议停留 ~'+DWELL[k]+' min':'')});
+   });
+   steps.push({title:'到达 '+nm(t),desc:'最终段 '+m.legs[m.legs.length-1].r.dist+' m · 确认现场楼层与店铺标识'});
+   $('steps').innerHTML=steps.map((st,i)=>'<div class="step"><div class="stepno">'+String(i+1).padStart(2,'0')+'</div><div><strong>'+st.title+'</strong><p>'+st.desc+'</p></div></div>').join('');
+   $('stepCount').textContent='STEP 1 / '+steps.length;
+  }
+ }else if(typeof updatePlan==='function')updatePlan();
+};
+$('proSeeHeat').onclick=()=>showTab('heat');
+$('proPeriod').addEventListener('input',()=>{state.period=+$('proPeriod').value;updatePeriodUI();recalcAll()});
+let playTimer=null;
+$('proPlay').onclick=()=>{
+ if(playTimer){clearInterval(playTimer);playTimer=null;$('proPlay').textContent='▶ 自动轮播时段';return}
+ $('proPlay').textContent='Ⅱ 停止轮播';
+ playTimer=setInterval(()=>{state.period=(state.period+1)%PERIODS.length;updatePeriodUI();recalcAll()},2400);
+};
+$('proRunTests').onclick=()=>runTests();
+$('proEdgeSel').innerHTML=EDGES.map(e=>'<option value="'+e.id+'">'+e.id+' · '+e.name+'</option>').join('');
+$('proClose').onclick=()=>{state.closed.add($('proEdgeSel').value);recalcAll()};
+$('proReopen').onclick=()=>{state.closed.delete($('proEdgeSel').value);recalcAll()};
+$('proSurge').onclick=()=>{state.surge={edge:$('proEdgeSel').value,add:750};recalcAll()};
+$('proClearSurge').onclick=()=>{state.surge=null;recalcAll()};
+$('proResetState').onclick=()=>{demoResetState()};
+$('proDemoPrev').onclick=()=>{demoStop();demoGo(demoIdx-1)};
+$('proDemoNext').onclick=()=>{demoStop();demoGo(demoIdx+1)};
+$('proDemoAuto').onclick=()=>{
+ if(demoTimer){demoStop();return}
+ demoGo(0);
+ $('proDemoAuto').textContent='Ⅱ 停止';
+ demoTimer=setInterval(()=>{if(demoIdx>=DEMO.length-1){demoStop()}else demoGo(demoIdx+1)},3000);
+};
+$('proDemoReset').onclick=()=>{demoStop();demoResetState();demoIdx=0;renderDemo();showTab('engine')};
+$('proRegen').onclick=()=>{
+ const v=parseInt($('proSeed').value);if(!v||v<1){alert('种子需为正整数');return}
+ state.seed=v;genJourneys();renderJourneys();recalcAll();
+ $('proRegenNote').textContent='已用种子 '+v+' 重新生成 '+JOURNEYS.length+' 条模拟记录，全链路已重算';
+ setTimeout(()=>{$('proRegenNote').textContent=''},4000);
+};
+window.addEventListener('resize',()=>{if(heatVisible)heatResize();drawWpMap()});
+function renderJourneys(){
+ $('proJourneyCount').textContent=JOURNEYS.length;
+ $('proJourneys').innerHTML='<tr><th>匿名ID</th><th>时段</th><th>入口 → 目的地</th><th>步数</th><th>驻留</th></tr>'+
+  JOURNEYS.slice(0,8).map(j=>'<tr><td>'+j.id+'</td><td>'+j.period+'</td><td>'+NODES[j.entry].name+' → '+NODES[j.dest].name+'</td><td>'+j.steps+'</td><td>'+j.dwellMin+' min</td></tr>').join('');
+}
+
+/* ===== v1.4 访客端 / 管理驾驶舱：双角色优化界面（复用同一数据模型与 recalcAll 流水线） ===== */
+const CUST_DESTS=['hero','toilet','cafe','lift','fashion','exit'];
+const CUST_ICON={hero:'🎯',toilet:'🚻',cafe:'☕',lift:'🛗',fashion:'👗',exit:'🚪'};
+const CUST_WP=['toilet','cafe','lift','fashion'];
+let custDest='hero';
+
+function custBadge(k){
+ const z=IND.zone[state.period]&&IND.zone[state.period][k];if(!z)return'';
+ return z.cong>0.75?'<span class="badge bad">拥挤</span>':z.cong>0.5?'<span class="badge warn">繁忙</span>':'<span class="badge ok">顺畅</span>';
+}
+function renderCustView(){
+ if(!$('custPois'))return;
+ const zp=IND.zone[state.period];if(!zp)return;
+ $('custPeriod').textContent='当前时段 · '+PERIODS[state.period].label;
+ $('cAcc').classList.toggle('on',state.accMode);
+ $('cAvoid').classList.toggle('on',state.avoid);
+ $('custPois').innerHTML=CUST_DESTS.map(k=>{
+  const m=routeMulti('entrance',state.wps.filter(w=>w!==k),k,{avoid:state.avoid,accMode:state.accMode});
+  const z=zp[k]||{};
+  const q=z.qp!=null?' · 排队约 '+Math.max(1,Math.round(z.qp*5))+' min':'';
+  return '<div class="poicard'+(k===custDest?' sel':'')+'" data-poi="'+k+'" title="'+NODES[k].name+'"><span class="ic">'+CUST_ICON[k]+'</span><b>'+NODES[k].name+'</b><span class="meta">'+(m&&!m.fail?'步行 '+Math.max(1,Math.round(m.minutes))+' min'+q:'当前不可达')+'</span>'+custBadge(k)+'</div>';
+ }).join('');
+ const chips=CUST_WP.map(k=>{
+  if(k===custDest)return'';
+  const on=state.wps.includes(k);
+  return '<button class="wpchip2'+(on?' on':'')+'" data-cwp="'+k+'"'+(!on&&state.wps.length>=3?' disabled':'')+'>'+CUST_ICON[k]+' '+NODES[k].name+(on?' ✕':' ＋')+'</button>';
+ }).join('');
+ $('custWps').innerHTML=chips||'<span class="sub">已选目的地本身无需加站；可点其他卡片更换目的地</span>';
+ const m=routeMulti('entrance',state.wps,custDest,{avoid:state.avoid,accMode:state.accMode});
+ const box=$('custRoute');
+ if(!m||m.fail!==undefined){
+  box.innerHTML='<h4>您的路线</h4><p class="sub">当前选择下暂无可达路线（可能因通道封闭或无障碍约束）。可去掉一个顺路点、换目的地，或关闭无障碍开关。</p>';
+ }else{
+  let tl='<ul class="tl">';
+  m.legs.forEach((L,i)=>{
+   const isEnd=i===m.legs.length-1;
+   const stopName=isEnd?NODES[L.to].name:NODES[L.to].name;
+   tl+='<li class="'+(i===0?'start':'')+(isEnd?' end':'')+'"><span class="tlno">'+(i===0?'起':(isEnd?'终':(i)))+'</span><b>'+NODES[L.from].name+'</b> → <b>'+stopName+'</b><br><span class="sub">'+L.r.dist+' m · 约 '+Math.max(1,Math.round(L.r.minutes))+' min · 沿途拥挤 '+Math.round(L.r.exposure*100)+'%</span>'+(isEnd?'':'<span class="dwell">· 建议停留 '+DWELL[L.to]+' min</span>')+'</li>';
+  });
+  tl+='</ul>';
+  const worst=Math.max(...m.edges.map(e=>congOf(e)));
+  box.innerHTML='<h4>您的路线 · 主入口 → '+NODES[custDest].name+(state.wps.length?'（途经 '+state.wps.length+' 站）':'')+'</h4>'
+   +'<span class="big">'+m.dist+' m · 约 '+Math.max(1,Math.round(m.minutes))+' min</span>'
+   +(state.accMode?' <span class="badge ok">♿ 全程无台阶</span>':'')
+   +(state.avoid&&worst>0.6?' <span class="badge warn">已自动避开拥挤路段</span>':'')
+   +tl;
+ }
+ const tips=[];
+ if(state.closed.size)tips.push('⚠ 部分通道临时封闭（'+[...state.closed].map(id=>EDGES.find(e=>e.id===id).name).join('、')+'），路线已自动调整');
+ const wEdge=m&&m.edges&&m.edges.length?m.edges.reduce((a,e)=>congOf(e)>congOf(a)?e:a,m.edges[0]):null;
+ if(m&&wEdge&&congOf(wEdge)>0.75)tips.push('⚠ 前方「'+wEdge.name+'」当前较拥挤，高峰时段建议错峰或走 '+NODES[custDest].name+' 另一侧通道');
+ if(m&&m.legs&&state.avoid&&worstTop(m)<=0.5)tips.push('✓ 当前时段客流顺畅，无需特意绕行');
+ $('custTips').innerHTML=tips.length?tips.map(t=>'<div>'+t+'</div>').join(''):'✓ 一切正常：路线已按当前客流为您优化。祝购物愉快！';
+ function worstTop(mm){return mm&&mm.edges?Math.max(...mm.edges.map(e=>congOf(e))):0}
+}
+$('custPois').addEventListener('click',ev=>{
+ const c=ev.target.closest('[data-poi]');if(!c)return;
+ custDest=c.dataset.poi;renderCustView();
+});
+$('custWps').addEventListener('click',ev=>{
+ const c=ev.target.closest('[data-cwp]');if(!c)return;
+ const k=c.dataset.cwp;
+ if(state.wps.includes(k))state.wps=state.wps.filter(w=>w!==k);
+ else if(state.wps.length<3)state.wps.push(k);
+ renderCustView();
+});
+$('cAcc').onclick=()=>{state.accMode=!state.accMode;renderCustView()};
+$('cAvoid').onclick=()=>{state.avoid=!state.avoid;renderCustView()};
+$('custSync').onclick=()=>{
+ $('start').value='entrance';
+ $('dest').value=CUST_DESTS.includes(custDest)?custDest:'hero';
+ if(typeof updatePlan==='function')updatePlan();
+ renderCustView();
+};
+$('custGo').onclick=()=>{
+ $('start').value='entrance';
+ $('dest').value=CUST_DESTS.includes(custDest)?custDest:'hero';
+ if(typeof updatePlan==='function')updatePlan();
+ const b=$('startBtn');if(b)b.click();
+ window.scrollTo({top:0,behavior:'smooth'});
+ setPersona('eng');
+};
+
+/* ---------- 管理驾驶舱 ---------- */
+const mc=$('mgrMap'),mctx=mc.getContext('2d');
+function mgrMapResize(){
+ const r=mc.getBoundingClientRect();if(!r.width)return;
+ const dpr=Math.min(window.devicePixelRatio||1,2);
+ mc.width=Math.round(r.width*dpr);mc.height=Math.round(r.height*dpr);
+ mctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function drawMgrMap(){
+ const w=mc.width,h=mc.height;if(!w)return;
+ const cw=mc.getBoundingClientRect().width||w,ch=cw*(h/w)||h;
+ const s=Math.min(cw/17.5,ch/18.6);
+ const P=n=>[(NODES[n].x+8.75)*s,(NODES[n].z+8.7)*s];
+ mctx.clearRect(0,0,cw,ch);
+ mctx.fillStyle='#04101a';mctx.fillRect(0,0,cw,ch);
+ for(const e of EDGES){
+  const p1=P(e.a),p2=P(e.b);
+  const closed=state.closed.has(e.id);
+  mctx.strokeStyle=closed?'#3a4a56':congColor(congOf(e));
+  mctx.lineWidth=Math.max(4,Math.round(s*0.55));
+  mctx.lineCap='round';
+  if(state.intervention&&state.intervention.edge===e.id){
+   mctx.setLineDash([7,5]);mctx.strokeStyle='#55f3ff';
+  }
+  mctx.beginPath();mctx.moveTo(p1[0],p1[1]);mctx.lineTo(p2[0],p2[1]);mctx.stroke();
+  mctx.setLineDash([]);
+  if(closed){
+   mctx.fillStyle='#8ba3b8';mctx.font='bold '+Math.max(10,s*0.8)+'px Inter,sans-serif';
+   mctx.textAlign='center';mctx.fillText('✕',(p1[0]+p2[0])/2,(p1[1]+p2[1])/2+4);
+  }
+ }
+ for(const k in NODES){
+  const[x,y]=P(k);
+  mctx.beginPath();mctx.arc(x,y,Math.max(5,s*0.55),0,7);
+  mctx.fillStyle=NODES[k].type==='entrance'?'#75ffbe':NODES[k].type==='exit'?'#ff586c':NODES[k].type==='junction'?'#2e5a72':'#168dff';
+  mctx.fill();
+  mctx.fillStyle='#eafaff';mctx.font=Math.max(9,s*0.62)+'px Inter,sans-serif';mctx.textAlign='center';
+  mctx.fillText(NODES[k].name,x,y-Math.max(7,s*0.75));
+ }
+}
+function renderMgrView(){
+ if(!$('mgrKpis'))return;
+ if(!IND.zone.length)return;
+ $('mgrPeriodLabel').textContent=PERIODS[state.period].label+' · 种子 '+state.seed+' · 匿名模拟';
+ $('mgrPeriodTxt').textContent=PERIODS[state.period].label;
+ $('mgrPeriod').value=state.period;
+ const z=IND.zone[state.period];
+ let total=0;for(const k in z)total+=z[k].footfall;
+ const edgesArr=EDGES.map(e=>({e:e,c:congOf(e)})).sort((a,b)=>b.c-a.c);
+ const worst=edgesArr[0];
+ const poiList=Object.keys(NODES).filter(k=>NODES[k].type==='poi'||NODES[k].type==='zone');
+ const maxQp=poiList.reduce((a,k)=>Math.max(a,z[k].qp||0),0);
+ const low=poiList.reduce((a,k)=>z[k].footfall<z[a].footfall?k:a,poiList[0]);
+ const cls=(c,t1,t2)=>c>t1?'bad':c>t2?'warn':'good';
+ const kpis=[
+  {v:total+' 人/h',l:'当前时段到访客流',c:''},
+  {v:Math.round(worst.c*100)+'%',l:'瓶颈通道 · '+worst.e.name,c:cls(worst.c,.75,.5)},
+  {v:Math.round(maxQp*100)+'%',l:'排队压力峰值（洗手间/咖啡/电梯）',c:cls(maxQp,.9,.7)},
+  {v:z[low].footfall+' 人/h',l:'最低到访 · '+NODES[low].name,c:'warn'},
+  {v:state.closed.size?state.closed.size+' 处':'无',l:'临时封闭通道',c:state.closed.size?'bad':'good'},
+  {v:state.intervention?'导流中':'待命',l:'干预状态（35% 分流）',c:state.intervention?'good':''}
+ ];
+ $('mgrKpis').innerHTML=kpis.map(k=>'<div class="kpi '+(k.c||'')+'"><b>'+k.v+'</b><span>'+k.l+'</span></div>').join('');
+ const alerts=[];
+ for(const id of state.closed){
+  const e=EDGES.find(x=>x.id===id);
+  alerts.push({cls:'red',t:'⛔ 通道封闭 · '+e.name,d:'客流已自动改道至替代通道；热力图灰色 ✕ 标记。',acts:[{a:'reopen',id:id,l:'↩ 重开通道'}]});
+ }
+ for(const x of edgesArr){
+  if(x.c>0.75&&!state.closed.has(x.e.id))alerts.push({cls:'red',t:'🔴 重度拥堵 · '+x.e.name+'（'+Math.round(x.c*100)+'%）',d:'已超 75% 阈值，建议生成导流方案或现场疏导。',acts:[{a:'interv',id:x.e.id,l:'⚡ 生成导流方案'},{a:'close',id:x.e.id,l:'⛔ 临时封闭'}]});
+  else if(x.c>0.6&&x.c<=0.75&&!state.closed.has(x.e.id))alerts.push({cls:'amber',t:'🟡 繁忙关注 · '+x.e.name+'（'+Math.round(x.c*100)+'%）',d:'接近阈值，持续观察。',acts:[{a:'interv',id:x.e.id,l:'⚡ 生成导流方案'}]});
+ }
+ if(state.surge){
+  const e=EDGES.find(x=>x.id===state.surge.edge);
+  alerts.push({cls:'amber',t:'📈 客流激增 · '+e.name+'（+'+state.surge.add+' 人/h）',d:'绕行客流叠加所致，引擎已自动感知并改道路由。',acts:[{a:'clearsurge',id:'',l:'✓ 确认恢复'}]});
+ }
+ if(!alerts.length)alerts.push({cls:'blue',t:'✓ 当前时段运营平稳',d:'无拥堵、无封闭、无激增。可拖动上方滑块查看其他时段。',acts:[]});
+ $('mgrAlerts').innerHTML=alerts.slice(0,6).map(a=>'<div class="mgralert '+a.cls+'"><b>'+a.t+'</b><br><span class="sub">'+a.d+'</span>'+(a.acts.length?'<div class="acts">'+a.acts.map(x=>'<button class="smallbtn" data-mact="'+x.a+'" data-mid="'+x.id+'">'+x.l+'</button>').join('')+'</div>':'')+'</div>').join('');
+ const ib=$('mgrInterv');
+ if(state.intervention){
+  const e=EDGES.find(x=>x.id===state.intervention.edge);
+  const now=congOf(e);
+  ib.innerHTML='<div class="mgralert blue"><b>⚡ 干预生效中 · '+e.name+'</b><br><span class="sub">35% 客流经替代通道分流：干预前 '+Math.round((interBefore||0)*100)+'% → 当前 '+Math.round(now*100)+'%。<br>基于模拟流推算，需实地匿名计数验证（不过度声称）。</span><div class="acts"><button class="smallbtn" data-mact="undo" data-mid="">↩ 撤销干预</button></div></div>';
+ }else{
+  const cands=EDGES.filter(e=>!state.closed.has(e.id)).map(e=>({e:e,c:congOf(e)})).sort((a,b)=>b.c-a.c);
+  const top=cands[0];
+  ib.innerHTML=top&&top.c>0.6
+   ?'<div class="mgralert amber"><b>可干预 · '+top.e.name+'（'+Math.round(top.c*100)+'%）</b><br><span class="sub">将 35% 客流分流至替代通道，预期拥堵显著回落。</span><div class="acts"><button class="smallbtn primary" data-mact="interv" data-mid="'+top.e.id+'">⚡ 一键导流</button></div></div>'
+   :'<div class="mgralert blue"><b>✓ 当前客流分布均衡</b><br><span class="sub">最拥堵通道 '+Math.round((top?top.c:0)*100)+'%，低于 60% 干预阈值，暂无需干预。</span></div>';
+ }
+ drawMgrMap();
+ const busy=poiList.slice().sort((a,b)=>z[b].cong-z[a].cong).slice(0,3);
+ const idle=poiList.slice().sort((a,b)=>z[a].footfall-z[b].footfall).slice(0,3);
+ let th='<tr><th>分区</th><th>到访 人/h</th><th>排队</th><th>拥堵</th><th>建议</th></tr>';
+ busy.forEach(k=>{th+='<tr><td>'+NODES[k].name+'</td><td>'+z[k].footfall+'</td><td>'+(z[k].qp!=null?Math.round(z[k].qp*100)+'%':'—')+'</td><td>'+Math.round(z[k].cong*100)+'%</td><td class="sub">导向分流 / 加开服务</td></tr>'});
+ idle.forEach(k=>{th+='<tr><td>'+NODES[k].name+'</td><td>'+z[k].footfall+'</td><td>'+(z[k].qp!=null?Math.round(z[k].qp*100)+'%':'—')+'</td><td>'+Math.round(z[k].cong*100)+'%</td><td class="sub">引导推荐 / 动线营销</td></tr>'});
+ $('mgrZones').innerHTML=th;
+}
+$('mgrAlerts').addEventListener('click',mgrAct);
+$('mgrInterv').addEventListener('click',mgrAct);
+function mgrAct(ev){
+ const b=ev.target.closest('[data-mact]');if(!b)return;
+ const act=b.dataset.mact,id=b.dataset.mid;
+ if(act==='interv'){const e=EDGES.find(x=>x.id===id);interBefore=congOf(e);state.intervention={edge:id,divert:0.35}}
+ else if(act==='undo'){state.intervention=null;interBefore=null}
+ else if(act==='close'){state.closed.add(id)}
+ else if(act==='reopen'){state.closed.delete(id)}
+ else if(act==='clearsurge'){state.surge=null}
+ recalcAll();
+}
+$('mgrPeriod').addEventListener('input',()=>{
+ state.period=+$('mgrPeriod').value;updatePeriodUI();recalcAll();
+});
+$('mgrPredict').onclick=()=>{
+ if(state.period<PERIODS.length-1){state.period++;updatePeriodUI();recalcAll()}
+ else{$('mgrPeriodTxt').textContent='已是最后时段'}
+};
+$('mgrResetView').onclick=()=>{demoResetState();renderCustView()};
+
+/* ---------- 角色切换 ---------- */
+function setPersona(m){
+ document.body.classList.remove('mode-cust','mode-mgr');
+ if(m==='cust'){document.body.classList.add('mode-cust');renderCustView()}
+ if(m==='mgr'){document.body.classList.add('mode-mgr');mgrMapResize();renderMgrView()}
+ ['pbEng','pbCust','pbMgr'].forEach(id=>{if($(id))$(id).classList.remove('active')});
+ const map={eng:'pbEng',cust:'pbCust',mgr:'pbMgr'};
+ if($(map[m]))$(map[m]).classList.add('active');
+}
+$('pbCust').onclick=()=>setPersona('cust');
+$('pbMgr').onclick=()=>setPersona('mgr');
+$('pbEng').onclick=()=>setPersona('eng');
+window.addEventListener('resize',()=>{if(document.body.classList.contains('mode-mgr')){mgrMapResize();drawMgrMap()}});
+const _recalcBase=recalcAll;
+recalcAll=function(){_recalcBase();renderCustView();renderMgrView()};
+
+/* ---------- 初始化：全链路计算 + 样本记录 + 自动自检 ---------- */
+computeAll();genJourneys();renderJourneys();updatePeriodUI();renderEngine();renderDash();renderDemo();renderCustView();renderMgrView();
+runTests();
+requestAnimationFrame(tick);
+})();
+
+/* ===== 真实3D地图 · Mappedin 官方服务接入（正大广场真实 13 层 / 585 家店铺）=====
+   独立 IIFE：零改动、零覆盖上方任何原有代码；懒加载（点开本标签页才联网）；
+   加载失败仅在本页显示降级提示，其余标签页功能完全不受影响。 ===== */
+(function(){
+const CDN='https://testingcf.jsdelivr.net/npm/@mappedin/mappedin-js@6.30.0';
+const CDN_FALLBACKS=['https://cdn.jsdelivr.net/npm/@mappedin/mappedin-js@6.30.0','https://fastly.jsdelivr.net/npm/@mappedin/mappedin-js@6.30.0'];
+function loadScriptAny(urls){return new Promise(function(res,rej){var i=0;function tryN(){if(i>=urls.length){rej(new Error('所有 CDN 均不可达：'+urls[0]));return}var s=document.createElement('script');s.src=urls[i];s.onload=function(){res(window.THREE)};s.onerror=function(){i++;tryN()};document.head.appendChild(s)}tryN()});}
+async function importAny(path){for(const base of [CDN].concat(CDN_FALLBACKS)){try{return await import(base+path)}catch(e){}}throw new Error('地图 SDK 所有 CDN 均不可达');}
+const CRED={key:'mik_GRDNEAwGiJ6LFSwu54ed106ff',secret:'mis_43ar5xAwMFXSh1wVFBodca76QBAJQ2KouUs7fd44zOA7c9d0f83',mapId:'677b7e6d51f079000b7dcfa6'};
+const $=id=>document.getElementById(id);
+let mi=null,mapData=null,mapView=null,ready=false,loading=false,initErr=null;
+let floors=[],shops=[],ord={},curFloor=null;
+
+function status(msg,cls){const el=$('rmStatus');if(el){el.textContent=msg;el.className='rm-status '+(cls||'');}}
+function esc(t){return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function flName(f){return f.name||f.shortName||f.id;}
+function flLabel(f){return flName(f).replace('Basement','B').replace('Level','L');}
+function flOrder(f){const n=flName(f).toLowerCase();const d=parseInt(n.replace(/\D/g,''),10)||0;return n.includes('basement')?-d:d;}
+
+const ACT={Departure:'出发',Arrival:'到达',TakeConnection:'换乘楼层',ExitConnection:'离开换乘',Turn:'转向'};
+const BEAR={Straight:'直行',Right:'向右转',SlightRight:'稍向右',Left:'向左转',SlightLeft:'稍向左',Back:'掉头'};
+const CONN={escalator:'扶梯',elevator:'电梯',stairs:'楼梯'};
+
+function renderShops(q){
+  const box=$('rmShops');if(!box)return;
+  q=(q||'').trim().toLowerCase();
+  const cur=curFloor;
+  let list=shops.filter(s=>!cur||s.floor===cur);
+  if(q)list=shops.filter(s=>((s.name||'')+' '+(s.description||'')).toLowerCase().includes(q));
+  const shown=list.slice(0,300);
+  box.innerHTML=shown.length?shown.map(s=>
+    '<div class="rm-shop" data-sid="'+s.id+'"><span>'+esc(s.name)+'</span><span class="fl">'+(s.floor?flLabel(s.floor):'')+'</span></div>'
+  ).join(''):'<div style="padding:10px;color:var(--muted);font-size:11px">'+(q?'无匹配店铺':'当前楼层暂无具名店铺')+'</div>';
+  box.dataset.count=String(list.length);
+}
+
+function setFloor(f,silent){
+  if(!mapView||!f)return;
+  curFloor=f;
+  try{mapView.setFloor(f.id);}catch(e){}
+  try{if(r3&&r3.ready)r3.setFloor(f);}catch(e){}
+  document.querySelectorAll('.rm-fbtn').forEach(b=>b.classList.toggle('active',b.dataset.fid===f.id));
+  renderShops($('rmSearch').value||'');
+  if(!silent)status('📍 当前楼层：'+flName(f)+' · 本层 '+(boxCount())+' 家具名店铺（点击列表可定位）','ok');
+}
+function boxCount(){const b=$('rmShops');return b&&b.dataset.count||0;}
+
+function clearRoute(){
+  try{if(r3&&r3.ready)r3.clearRoute();}catch(e){}
+  try{if(mapView){mapView.Paths.removeAll();mapView.Markers.removeAll();}}catch(e){}
+  const r=$('rmRoute');if(r){r.classList.remove('show');r.innerHTML='';}
+}
+
+async function goRoute(){
+  if(!mapData||!mapView)return;
+  const from=shops.find(s=>s.id===$('rmFrom').value),to=shops.find(s=>s.id===$('rmTo').value);
+  if(!from||!to||from===to){status('请选择不同的起点与目的地','bad');return;}
+  clearRoute();
+  status('🟡 正在官方路网上规划真实路径…','load');
+  try{
+    const dir=await mapData.getDirections(from,to);
+    if(!dir||!dir.coordinates||!dir.coordinates.length){status('⚠️ 官方路网中两点间无可达路径','bad');return;}
+    mapView.Paths.add(dir.coordinates,{color:'#55f3ff',width:4,stemWidth:2});
+    try{
+      mapView.Markers.add(dir.coordinates[0],'<div style="width:13px;height:13px;border-radius:50%;background:#38e07b;border:2px solid #04101a;box-shadow:0 0 8px #38e07b"></div>');
+      mapView.Markers.add(dir.coordinates[dir.coordinates.length-1],'<div style="width:13px;height:13px;border-radius:50%;background:#ff5470;border:2px solid #04101a;box-shadow:0 0 8px #ff5470"></div>');
+    }catch(e){}
+    const mins=Math.max(1,Math.round(dir.distance/1.2/60));
+    let html='<b style="color:var(--cyan);font-size:13px">🧭 '+esc(from.name)+' → '+esc(to.name)+'</b>'
+      +'<div style="margin:6px 0 2px;color:var(--muted)">官方路网真实距离 <b style="color:var(--white)">'+Math.round(dir.distance)+' m</b> · 步行约 <b style="color:var(--white)">'+mins+' min</b>（按 1.2 m/s） · '+dir.instructions.length+' 步指引</div><ol class="rm-steps">';
+    dir.instructions.forEach(ins=>{
+      const a=ins.action||{};
+      let t=ACT[a.type]||a.type||'前行';
+      if(a.type==='TakeConnection'&&ins.connection){t='乘'+(CONN[ins.connection.type]||'换乘');}
+      if(a.type==='Departure'||a.type==='Turn'){t=(BEAR[a.bearing]||'')+(a.type==='Turn'?'':'出发');}
+      html+='<li><b>'+esc(t)+'</b>'+(ins.distance>0.5?' · 前方 '+Math.round(ins.distance)+' m':'')+'</li>';
+    });
+    html+='</ol>';
+    const r=$('rmRoute');r.innerHTML=html;r.classList.add('show');
+    try{mapView.Camera.focusOn([from,to]).catch(function(){});}catch(e){}
+    status('✅ 真实导航完成：'+Math.round(dir.distance)+' m · 跨楼层路径由官方路网计算','ok');
+    try{if(r3&&r3.ready)r3.route(dir.coordinates);}catch(e){}
+    window.__realmapRoute={from:from.name,to:to.name,distance:Math.round(dir.distance),steps:dir.instructions.length};
+  }catch(e){status('导航失败：'+(e&&e.message||e),'bad');}
+}
+
+async function init(){
+  if(ready||loading||initErr)return;
+  loading=true;
+  status('🟡 正在连接 Mappedin 官方服务并下载正大广场真实地图数据（需联网，首次约 10–20 秒）…','load');
+  try{
+    if(!document.querySelector('link[data-mi]')){
+      const l=document.createElement('link');l.rel='stylesheet';l.href=CDN+'/lib/index.css';l.dataset.mi='1';document.head.appendChild(l);
+    }
+    mi=await importAny('/+esm');
+    status('🟡 SDK 就绪，正在鉴权并解析 13 层建筑几何与店铺名录…','load');
+    mapData=await mi.getMapData(CRED);
+    mapView=await mi.show3dMap($('rmMap'),mapData);
+    floors=mapData.getByType('floor')||[];
+    shops=(mapData.getByType('space')||[]).filter(s=>s&&s.name);
+    floors.forEach(f=>ord[f.id]=flOrder(f));
+    floors=floors.slice().sort((a,b)=>ord[a.id]-ord[b.id]);
+    shops.sort((a,b)=>(ord[a.floor&&a.floor.id]||0)-(ord[b.floor&&b.floor.id]||0)||String(a.name).localeCompare(String(b.name),'zh'));
+    $('rmFloors').innerHTML=floors.map(f=>'<button class="rm-fbtn" data-fid="'+f.id+'">'+flLabel(f)+'</button>').join('');
+    $('rmFloors').addEventListener('click',function(e){
+      const b=e.target.closest('.rm-fbtn');if(!b)return;
+      const f=floors.find(x=>x.id===b.dataset.fid);if(f)setFloor(f);
+    });
+    const opts=shops.map(s=>'<option value="'+s.id+'">'+esc(s.name)+'（'+(s.floor?flLabel(s.floor):'?')+'）</option>').join('');
+    $('rmFrom').innerHTML=opts;$('rmTo').innerHTML=opts;
+    if(shops.length>1){$('rmFrom').selectedIndex=0;$('rmTo').selectedIndex=Math.min(shops.length-1,1);}
+    $('rmShops').addEventListener('click',function(e){
+      const el=e.target.closest('.rm-shop');if(!el)return;
+      const s=shops.find(x=>x.id===el.dataset.sid);if(!s)return;
+      if(s.floor&&s.floor!==curFloor)setFloor(s.floor,true);
+      try{mapView.Camera.focusOn(s,{minZoomLevel:19}).catch(function(){});}catch(err){}
+      try{if(r3&&r3.ready&&r3mode==='3d')r3.focusSpace(s);}catch(err){}
+      status('📍 '+s.name+' · '+(s.floor?flName(s.floor):'')+' —— 已定位（绿色高亮）','ok');
+      window.__realmapFocus=s.name;
+    });
+    $('rmSearch').addEventListener('input',function(e){renderShops(e.target.value);});
+    $('rmGo').addEventListener('click',goRoute);
+    $('rmClear').addEventListener('click',clearRoute);
+    try{
+      mapView.on('floor-change',function(p){const f=floors.find(x=>x.id===(p&&p.floorId||p));if(f&&f!==curFloor){curFloor=f;document.querySelectorAll('.rm-fbtn').forEach(b=>b.classList.toggle('active',b.dataset.fid===f.id));renderShops($('rmSearch').value||'');}});
+    }catch(e){}
+    const l1=floors.find(f=>/^level 1$/i.test(flName(f)))||floors.find(f=>ord[f.id]===Math.min.apply(null,floors.map(x=>ord[x.id]).filter(v=>v>0)))||floors[0];
+    setFloor(l1,true);
+    ready=true;
+    try{await buildRm3D();}catch(e3){}
+    status('✅ 已就绪 · '+floors.length+' 层 · '+shops.length+' 家真实店铺','ok');
+    window.__realmapReady={floors:floors.length,shops:shops.length};
+  }catch(e){
+    initErr=e;
+    status('❌ 真实地图加载失败：'+(e&&e.message||e)+' —— 本页需要联网访问 Mappedin 官方服务（CDN + 数据接口）。其余标签页功能不受任何影响；恢复网络后刷新页面重试即可。','bad');
+  }
+  loading=false;
+}
+// ===== Three.js 立体 3D 模块（真实几何数据 · 独立渲染层，不影响官方平面视图） =====
+let r3=null,r3mode='3d';
+function switchRmMode(m){
+  r3mode=m;
+  const box=$('rmMap3d');if(!box)return;
+  const on=(m==='3d')&&r3&&r3.ready;
+  box.classList.toggle('on',on);
+  const b3=$('rmMode3d'),bf=$('rmModeFlat');
+  if(b3)b3.classList.toggle('active',m==='3d');
+  if(bf)bf.classList.toggle('active',m!=='3d');
+  const bar=$('rm3dBar');if(bar)bar.style.display=on?'flex':'none';
+  const tip=$('rm3dTip');if(tip)tip.style.display=on?'block':'none';
+  const hint=$('rmHint');if(hint)hint.style.display=on?'none':'block';
+  if(on&&r3&&r3.resize)r3.resize();
+}
+async function buildRm3D(){
+  if(r3&&r3.ready)return;
+  const tip=$('rm3dTip');
+  function setTip(t){if(tip)tip.textContent=t;}
+  setTip('⏳ Three.js 引擎加载中…');
+  const T3_HOSTS=['https://testingcf.jsdelivr.net/npm/three@0.128.0','https://cdn.jsdelivr.net/npm/three@0.128.0','https://fastly.jsdelivr.net/npm/three@0.128.0'];
+  if(!window.THREE)await loadScriptAny(T3_HOSTS.map(function(h){return h+'/build/three.min.js'}));
+  if(!window.THREE||!window.THREE.OrbitControls)await loadScriptAny(T3_HOSTS.map(function(h){return h+'/examples/js/controls/OrbitControls.js'}));
+  const T=window.THREE;
+  setTip('⏳ 正在挤出 '+spacesGeo().length+' 个真实店铺多边形…');
+
+  const LAT0=31.23870,LNG0=121.49476,MPH_LAT=110540,MPH_LNG=96100,FLOOR_H=3.0;
+  const proj=function(lng,lat){return [(lng-LNG0)*MPH_LNG,(lat-LAT0)*MPH_LAT];};
+  function spacesGeo(){return mapData.getByType('space')||[];}
+  const elevOf=function(f){return f&&typeof f.elevation==='number'?f.elevation:0;};
+  const floorById={};floors.forEach(function(f){floorById[f.id]=f;});
+
+  const canvas=$('rm3dCanvas');
+  const box=$('rmMap3d');
+  const renderer=new T.WebGLRenderer({canvas,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.6));
+  function sizeRenderer(){
+    const w=box.clientWidth||900,h=box.clientHeight||560;
+    renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+  }
+  const scene=new T.Scene();
+  scene.background=new T.Color(0x0a1622);
+  scene.fog=new T.Fog(0x0a1622,340,950);
+  const camera=new T.PerspectiveCamera(48,900/560,0.5,1600);
+  const cam0={pos:new T.Vector3(148,84,172),tgt:new T.Vector3(0,17,0)};
+  camera.position.copy(cam0.pos);
+  const controls=new T.OrbitControls(camera,canvas);
+  controls.target.copy(cam0.tgt);
+  controls.enableDamping=true;controls.dampingFactor=0.08;
+  controls.maxPolarAngle=Math.PI/2.04;controls.minDistance=25;controls.maxDistance=650;
+  scene.add(new T.AmbientLight(0xffffff,0.85));
+  const dl=new T.DirectionalLight(0xbfe8ff,0.95);dl.position.set(120,230,80);scene.add(dl);
+  const minElev=Math.min.apply(null,floors.map(elevOf));
+  const grid=new T.GridHelper(560,40,0x1a5a72,0x113243);grid.position.y=minElev*FLOOR_H-1.5;scene.add(grid);
+  const gl2=new T.GridHelper(560,8,0x2b8cab,0x2b8cab);gl2.position.y=minElev*FLOOR_H-1.4;gl2.material.opacity=0.25;gl2.material.transparent=true;scene.add(gl2);
+
+  // 每层 Group（y = elevation × 层高）
+  const layerGroups={};
+  floors.forEach(function(f){const g=new T.Group();g.position.y=elevOf(f)*FLOOR_H;layerGroups[elevOf(f)]=g;scene.add(g);});
+
+  const faceGeos={},edgeGeos={},shopMeta=[];
+  spacesGeo().forEach(function(s){
+    const g=s.geoJSON;
+    if(!g||!g.geometry||g.geometry.type!=='Polygon')return;
+    const elev=elevOf(s.floor);
+    const rings=g.geometry.coordinates;
+    if(!rings||!rings.length||!rings[0]||rings[0].length<3)return;
+    const shape=new T.Shape();let cx=0,cz=0,n=0,minX=1e9,maxX=-1e9,minZ=1e9,maxZ=-1e9;
+    rings[0].forEach(function(pt,i){const p=proj(pt[0],pt[1]);if(i===0)shape.moveTo(p[0],-p[1]);else shape.lineTo(p[0],-p[1]);cx+=p[0];cz+=p[1];n++;
+      if(p[0]<minX)minX=p[0];if(p[0]>maxX)maxX=p[0];if(p[1]<minZ)minZ=p[1];if(p[1]>maxZ)maxZ=p[1];});
+    for(let r=1;r<rings.length;r++){
+      const hole=new T.Path();
+      rings[r].forEach(function(pt,i){const p=proj(pt[0],pt[1]);if(i===0)hole.moveTo(p[0],-p[1]);else hole.lineTo(p[0],-p[1]);});
+      shape.holes.push(hole);
+    }
+    const geo=new T.ExtrudeGeometry(shape,{depth:2.35,bevelEnabled:false});
+    geo.rotateX(-Math.PI/2);
+    (faceGeos[elev]=faceGeos[elev]||[]).push(geo);
+    (edgeGeos[elev]=edgeGeos[elev]||[]).push(new T.EdgesGeometry(geo,28));
+    if(s.name)shopMeta.push({name:s.name,elev:elev,cx:cx/n,cz:cz/n,space:s,area:(maxX-minX)*(maxZ-minZ)});
+  });
+
+  function mergeGeoms(list){
+    let total=0;list.forEach(function(g){total+=g.index?g.index.count:g.attributes.position.count;});
+    const pos=new Float32Array(total*3),nor=new Float32Array(total*3);let off=0;
+    list.forEach(function(g){
+      const p=g.attributes.position.array,n=g.attributes.normal?g.attributes.normal.array:null;
+      if(g.index){const ix=g.index.array;
+        for(let i=0;i<g.index.count;i++){const vi=ix[i]*3,o=off*3;
+          pos[o]=p[vi];pos[o+1]=p[vi+1];pos[o+2]=p[vi+2];
+          if(n){nor[o]=n[vi];nor[o+1]=n[vi+1];nor[o+2]=n[vi+2];}
+          off++;}
+      }else{pos.set(p,off*3);if(n)nor.set(n,off*3);off+=g.attributes.position.count;}
+    });
+    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(pos,3));g.setAttribute('normal',new T.BufferAttribute(nor,3));return g;
+  }
+
+  const floorObjs=[];
+  for(const elev in faceGeos){
+    const mm=new T.Mesh(mergeGeoms(faceGeos[elev]),new T.MeshLambertMaterial({color:0x0e3d54,transparent:true,opacity:0.55,side:T.DoubleSide}));
+    const em=new T.LineSegments(mergeGeoms(edgeGeos[elev]),new T.LineBasicMaterial({color:0x66eaff,transparent:true,opacity:1.0}));
+    const lg=new T.Group();
+    layerGroups[elev].add(mm);layerGroups[elev].add(em);layerGroups[elev].add(lg);
+    floorObjs.push({elev:+elev,faces:mm,edges:em,labels:lg});
+  }
+  // 店铺标签（canvas Sprite · 胶囊样式 + 空间抽稀防重叠）
+  const labelCache={};
+  function makeLabel(text){
+    if(labelCache[text])return labelCache[text];
+    const cv=document.createElement('canvas');const ctx=cv.getContext('2d');
+    const fs=21,padX=13,padY=9;
+    ctx.font='500 '+fs+'px "Microsoft YaHei","Segoe UI",sans-serif';
+    const tw=Math.ceil(ctx.measureText(text).width);
+    const w=tw+padX*2,h=fs+padY*2;
+    cv.width=w;cv.height=h;
+    ctx.font='500 '+fs+'px "Microsoft YaHei","Segoe UI",sans-serif';
+    const r=(h-3)/2;
+    ctx.beginPath();ctx.moveTo(r+1,2);ctx.arcTo(w-2,2,w-2,h-2,r);ctx.arcTo(w-2,h-2,1,h-2,r);ctx.arcTo(1,h-2,1,2,r);ctx.arcTo(1,2,w-2,2,r);ctx.closePath();
+    ctx.fillStyle='rgba(7,20,32,0.82)';ctx.fill();
+    ctx.lineWidth=1.4;ctx.strokeStyle='rgba(85,190,225,0.42)';ctx.stroke();
+    ctx.fillStyle='#c4ecfb';
+    ctx.fillText(text,padX,fs+padY-6);
+    const tex=new T.CanvasTexture(cv);tex.minFilter=T.LinearFilter;
+    const sp=new T.Sprite(new T.SpriteMaterial({map:tex,transparent:true,depthTest:false,opacity:0.92}));
+    sp.scale.set(w/10,h/10,1);labelCache[text]=sp;return sp;
+  }
+  floorObjs.forEach(function(fo){
+    const cand=shopMeta.filter(function(m){return m.elev===fo.elev&&m.name;})
+      .sort(function(a,b){return b.area-a.area;}).slice(0,26);
+    const used={}; // 网格去重叠：每 15m 格只留一个标签
+    cand.forEach(function(m){
+      const gx=Math.floor(m.cx/15),gz=Math.floor(m.cz/15),k=gx+'_'+gz;
+      if(used[k])return;used[k]=1;
+      const sp=makeLabel(m.name);sp.position.set(m.cx,3.1,m.cz);fo.labels.add(sp);
+    });
+  });
+  let r3cur=null;
+  let selectedSpaceGroup=null;
+  function highlightSpace(s){
+    if(selectedSpaceGroup){scene.remove(selectedSpaceGroup);selectedSpaceGroup.traverse(function(o){if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(function(m){m.dispose();});else o.material.dispose();}});selectedSpaceGroup=null;}
+    if(!s||!s.geoJSON||!s.geoJSON.geometry||s.geoJSON.geometry.type!=='Polygon')return;
+    const rings=s.geoJSON.geometry.coordinates;if(!rings||!rings.length||!rings[0]||rings[0].length<3)return;
+    const shape=new T.Shape();
+    rings[0].forEach(function(pt,i){const p=proj(pt[0],pt[1]);if(i===0)shape.moveTo(p[0],-p[1]);else shape.lineTo(p[0],-p[1]);});
+    for(let r=1;r<rings.length;r++){const hole=new T.Path();rings[r].forEach(function(pt,i){const p=proj(pt[0],pt[1]);if(i===0)hole.moveTo(p[0],-p[1]);else hole.lineTo(p[0],-p[1]);});shape.holes.push(hole);}
+    const elev=elevOf(s.floor),group=new T.Group();group.position.y=elev*FLOOR_H+2.42;
+    const geometry=new T.ShapeGeometry(shape);geometry.rotateX(-Math.PI/2);
+    const fill=new T.Mesh(geometry,new T.MeshBasicMaterial({color:0x38e07b,transparent:true,opacity:0.96,side:T.DoubleSide,depthTest:false,depthWrite:false}));fill.renderOrder=20;group.add(fill);
+    const center=s.center&&proj(s.center.longitude,s.center.latitude);
+    if(center){const marker=dot('#75ffbe',3.6);marker.position.set(center[0],0.38,-center[1]);marker.renderOrder=21;group.add(marker);}
+    scene.add(group);selectedSpaceGroup=group;
+  }
+  function applyEmphasis(){
+    floorObjs.forEach(function(fo){
+      const isCur=r3cur&&fo.elev===elevOf(r3cur);
+      fo.faces.material.opacity=isCur?0.55:0.04;
+      fo.faces.material.color.setHex(isCur?0x0e3d54:0x123c50);
+      fo.edges.material.opacity=isCur?0.72:0.07;
+      fo.edges.material.color.setHex(isCur?0x5bd7f5:0x2a5568);
+      fo.labels.visible=!!isCur;
+    });
+  }
+  // 路径与标记
+  const routeGroup=new T.Group();scene.add(routeGroup);
+  function dot(color,size){
+    const cv=document.createElement('canvas');cv.width=cv.height=48;const c=cv.getContext('2d');
+    c.beginPath();c.arc(24,24,15,0,7);c.fillStyle=color;c.shadowColor=color;c.shadowBlur=13;c.fill();
+    const sp=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(cv),transparent:true,depthTest:false}));
+    sp.scale.set(size,size,1);return sp;
+  }
+  function route(coordinates){
+    clearRouteLocal();
+    if(!coordinates||!coordinates.length)return;
+    const pts=[];
+    coordinates.forEach(function(c){
+      const f=floorById[c.floorId];const e=elevOf(f);
+      const p=proj(c.longitude,c.latitude);
+      pts.push(new T.Vector3(p[0],e*FLOOR_H+(c.verticalOffset||0),p[1]));
+    });
+    if(pts.length<2)return;
+    const routeMat=new T.MeshBasicMaterial({color:0x55f3ff,transparent:true,opacity:0.98,depthWrite:false,depthTest:false});
+    const up=new T.Vector3(0,1,0);
+    for(let i=1;i<pts.length;i++){
+      const delta=new T.Vector3().subVectors(pts[i],pts[i-1]),length=delta.length();
+      if(length<0.02)continue;
+      const segment=new T.Mesh(new T.CylinderGeometry(0.42,0.42,length,7,1,false),routeMat);
+      segment.position.copy(pts[i]).add(pts[i-1]).multiplyScalar(0.5);
+      segment.quaternion.setFromUnitVectors(up,delta.normalize());segment.renderOrder=10;routeGroup.add(segment);
+    }
+    const a=dot('#38e07b',4.6);a.position.copy(pts[0]).add(new T.Vector3(0,2.6,0));routeGroup.add(a);
+    const b=dot('#ff5470',4.6);b.position.copy(pts[pts.length-1]).add(new T.Vector3(0,2.6,0));routeGroup.add(b);
+    const step=Math.max(1,Math.floor(pts.length/8));
+    for(let i=step;i<pts.length-1;i+=step){const d=dot('#4be1ff',1.8);d.position.copy(pts[i]).add(new T.Vector3(0,1.4,0));routeGroup.add(d);}
+  }
+  function clearRouteLocal(){while(routeGroup.children.length){const c=routeGroup.children[0];routeGroup.remove(c);if(c.geometry)c.geometry.dispose();if(c.material){if(Array.isArray(c.material))c.material.forEach(function(m){m.dispose();});else c.material.dispose();}}}
+  const api={
+    ready:true,
+    setFloor:function(f){r3cur=f;applyEmphasis();},
+    route:function(c){route(c);},
+    clearRoute:function(){clearRouteLocal();},
+    focusSpace:function(s){
+      const f=s.floor;const p=proj(s.center.longitude,s.center.latitude);
+      if(f&&r3cur!==f){r3cur=f;applyEmphasis();}
+      controls.target.set(p[0],elevOf(f)*FLOOR_H+1.5,p[1]);
+      highlightSpace(s);
+    },
+    resize:function(){sizeRenderer();},
+    resetView:function(){camera.position.copy(cam0.pos);controls.target.copy(cam0.tgt);},
+    topView:function(){controls.target.set(0,17,0);camera.position.set(controls.target.x,330,controls.target.z+2);}
+  };
+  $('rm3dReset').addEventListener('click',function(){api.resetView();});
+  $('rm3dTop').addEventListener('click',function(){api.topView();});
+  $('rmMode3d').addEventListener('click',function(){switchRmMode('3d');});
+  $('rmModeFlat').addEventListener('click',function(){switchRmMode('flat');});
+  window.addEventListener('resize',function(){if(r3mode==='3d')sizeRenderer();});
+  r3cur=curFloor||floors.find(function(f){return /^level 1$/i.test(flName(f));})||floors[0];
+  applyEmphasis();
+  sizeRenderer();
+  (function loop3d(){requestAnimationFrame(loop3d);controls.update();renderer.render(scene,camera);})();
+  r3=api;
+  setTip('拖动旋转 · 滚轮缩放 · 绿点起点 / 红点终点');
+  switchRmMode('3d');
+}
+document.addEventListener('click',function(e){
+  if(e.target&&e.target.closest&&e.target.closest('[data-tab="realmap"]'))init();
+});
+})();
+</script></body></html>
